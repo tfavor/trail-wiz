@@ -16,34 +16,151 @@
             <h2>BIKING</h2>
         </div>
     </header>
-    <main class="main-content hidden">
-        <div class="nav-bar">
-            <div class="hiking-option">
-                <h3>hiking</h3>
-            </div>
-            <div class="biking-option">
-                <h3>biking</h3>
+    <main class="main-content">
+        <div class="nav-bar-container hidden">
+            <div class="nav-bar">
+                <div class="hiking-option">
+                    <h3>hiking</h3>
+                </div>
+                <div class="biking-option">
+                    <h3>biking</h3>
+                </div>
             </div>
         </div>
 
 
-        <section class="main-search">
-            <form class="main-search-form" action="">
-                <div class="input-values">
-                    <input type="text" value="city, state">
-                    <input type="text" value="miles">
+        <section class="main-search-container hidden">
+            <div class="main-search">
+                <form class="main-search-form" action="">
+                    <div class="input-values">
+                        <input type="text" value="city, state">
+                        <input type="text" value="miles">
+                    </div>
+                    <button type="submit" value="search">search</button>
+                </form>
+            </div>
+        </section>
+
+
+        <section class="results-container hidden">
+            <div class="resutls"></div>
+                <div class="results-search">
+                    <form class="results-search-form" action="">
+                        <div class="result-input-values">
+                            <input type="text" value="city, state">
+                            <input type="text" value="miles">
+                        </div>
+                        <button type="submit" value="search">search</button>
+                    </form>
                 </div>
-                <button type="submit" value="search">search</button>
-            </form>
+                <div class="results-list-container">
+                    <ul class="results-list">
+                        <li class="results-list-item" id="trail-1">
+                            <div class="list-item-content">
+                            <h4 class="trail-name">trail 1</h4>
+                            <div class="trail-content hidden">
+                                <p>description</p>
+                                <p>conditions</p>
+                                <p>location</p>
+                            </div>
+                            </div> 
+                        </li>
+                        <li class="results-list-item" id="trail-2">
+                            <div class="list-item-content">
+                                <h4 class="trail-name">trail 2</h4>
+                                <div class="trail-content hidden">
+                                    <p>description</p>
+                                    <p>conditions</p>
+                                    <p>location</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="results-list-item" id="trail-3">
+                            <div class="list-item-content">
+                                <h4 class="trail-name">trail 3</h4>
+                                <div class="trail-content hidden">
+                                    <p>description</p>
+                                    <p>conditions</p>
+                                    <p>location</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="results-list-item" id="trail-4">
+                            <div class="list-item-content">
+                                <h4 class="trail-name">trail 4</h4>
+                                <div class="trail-content hidden">
+                                    <p>description</p>
+                                    <p>conditions</p>
+                                    <p>location</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="results-list-item" id="trail-5">
+                            <div class="list-item-content">
+                                <h4 class="trail-name">trail 5</h4>
+                                <div class="trail-content hidden">
+                                    <p>description</p>
+                                    <p>conditions</p>
+                                    <p>location</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="results-list-item" id="trail-6">
+                            <div class="list-item-content">
+                                <h4 class="trail-name">trail 6</h4>
+                                <div class="trail-content hidden">
+                                    <p>description</p>
+                                    <p>conditions</p>
+                                    <p>location</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="results-list-item" id="trail-7">
+                            <div class="list-item-content">
+                                <h4 class="trail-name">trail 7</h4>
+                                <div class="trail-content hidden">
+                                    <p>description</p>
+                                    <p>conditions</p>
+                                    <p>location</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="results-list-item" id="trail-8">
+                            <div class="list-item-content">
+                                <h4 class="trail-name">trail 8</h4>
+                                <div class="trail-content hidden">
+                                    <p>description</p>
+                                    <p>conditions</p>
+                                    <p>location</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="results-list-item" id="trail-9">
+                            <div class="list-item-content">
+                                <h4 class="trail-name">trail 9</h4>
+                                <div class="trail-content hidden">
+                                    <p>description</p>
+                                    <p>conditions</p>
+                                    <p>location</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="results-list-item" id="trail-10">
+                            <div class="list-item-content">
+                                <h4 class="trail-name">trail 10</h4>
+                                <div class="trail-content hidden">
+                                    <p>description</p>
+                                    <p>conditions</p>
+                                    <p>location</p>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </section>
-
-
-        <section class="results">
-
-        </section>
-
-
     </main>
+
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>  
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
