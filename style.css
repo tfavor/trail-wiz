@@ -1,0 +1,119 @@
+html, body {
+    box-sizing: border-box;
+    margin: 0;
+    height: 100%;
+}
+
+/* first page to load */
+.hike, .bike {
+    position: absolute;
+    height: 100%;
+    width: 65%;
+  }
+.hike {
+    cursor: pointer;
+    background-color: darkgray;
+    width: 100%;
+    height: 100%;
+    -webkit-clip-path: polygon(0 0, 99.5% 0%, 0% 99.5%);
+    clip-path: polygon(0 0, 99.5% 0%, 0% 99.5%);
+}
+.bike {
+    cursor: pointer;
+    background-color: grey;
+    width: 100%;
+    height: 100%;
+    -webkit-clip-path: polygon(100% .5%, 100% 100%, .5% 100%);
+    clip-path: polygon(100% .5%, 100% 100%, .5% 100%);
+}
+.hike>h2 {
+    background-color: white;
+    position: absolute;
+    top: 25%;
+    left: 20%;
+    width: 100px;
+    text-align: center;
+}
+.bike>h2 {
+    background-color: white;
+    position: absolute;
+    bottom: 25%;
+    right: 20%;
+    width: 100px;
+    text-align: center;
+}
+
+.hidden {
+    display: none;
+}
+
+/* second page to load */
+.nav-bar {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    display: flex;
+    flex-direction: row;
+}
+.hiking-option {
+    text-align: left;
+    position: absolute;
+    margin: 0;
+    cursor: pointer;
+    background-color: darkgrey;
+    width: 100%;
+    height: 100%;
+    -webkit-clip-path: polygon(0 0, 54.5% 0%, 44.5% 100%, 0% 99.5%);
+    clip-path: polygon(0 0, 54.5% 0%, 44.5% 100%, 0% 99.5%);
+}
+.biking-option {
+    text-align: right;
+    position: absolute;
+    margin: 0;
+    cursor: pointer;
+    background-color: grey;
+    width: 100%;
+    height: 100%;
+    -webkit-clip-path: polygon(55.5% .5%, 100% 0%, 100% 100%, 45.5% 100%);
+    clip-path: polygon(55.5% .5%, 100% 0%, 100% 100%, 45.5% 100%);
+}
+.hiking-option>h3 {
+    padding: 0 30px;
+}
+.biking-option>h3 {
+    padding: 0 30px;
+}
+main {
+    height: 100%;
+}
+.main-search {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: calc(100% - 50px);
+}
+.main-search-form {
+    width: 95%;
+    height: 95%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+.input-values {
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+.input-values>input {
+    border: 1px solid black; 
+    margin: 10px 0;
+    height: 30px;
+}
+.main-search-form>button {
+    margin: 10px 0;
+    width: 100%;
+    height: 50px;
+}
