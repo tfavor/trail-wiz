@@ -9,10 +9,10 @@
 </head>
 <body>
     <header>
-        <div class="hike">
+        <div class="hike" id="hiking">
             <h2>HIKING</h2>
         </div>
-        <div class="bike">
+        <div class="bike" id="biking">
             <h2>BIKING</h2>
         </div>
     </header>
@@ -31,10 +31,10 @@
 
         <section class="main-search-container hidden">
             <div class="main-search">
-                <form class="main-search-form" action="">
+                <form class="main-search-form search-form" action="">
                     <div class="input-values">
-                        <input type="text" value="city, state">
-                        <input type="text" value="miles">
+                        <input class="location" type="text" value="city, state">
+                        <input class="distance" type="text" value="miles">
                     </div>
                     <button type="submit" value="search">search</button>
                 </form>
@@ -45,7 +45,7 @@
         <section class="results-container hidden">
             <div class="resutls"></div>
                 <div class="results-search">
-                    <form class="results-search-form" action="">
+                    <form class="results-search-form search-form" action="">
                         <div class="result-input-values">
                             <input type="text" value="city, state">
                             <input type="text" value="miles">
