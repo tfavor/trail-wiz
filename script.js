@@ -58,11 +58,6 @@ function callGeoCode() {
       console.log();
 }
 
-function getGeolocation() {
-    let lat = '';
-    let long = '';
-}
-
 function geoCodeQueryString() {
     let city = $('.location').val();
     let radius = $('.distance').val();
@@ -81,13 +76,57 @@ function geoCodeQueryString() {
 }
 
 function returnGeoCodeResults (responseJson) {
-    let results = responseJson.results[0];
-    let lat = results.geometry.lat;
-    let lng = results.geometry.lng;
-    console.log(results);
-    console.log(lat);
-    console.log(lng);
+    let resultsObj = {};
+    let coordinates = {};
+    if (responseJson.results.length > 0) {
+    resultsObj = responseJson.results[0];
+    coordinates.lat = resultsObj.geometry.lat;
+    coordinates.lon = resultsObj.geometry.lng;
+    } else {
+       console.log("invaled city or state");
+    }
+    getTrails(coordinates);
 }
+
+function getTrails(coordinates) {
+    let url = trailsUrl + '?' +  trailsString(coordinates);
+    fetch(url)
+    .then(response => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error(response.statusText);
+      })
+      .then(responseJson => console.log(responseJson))
+      .catch(err => {
+        $('#js-error-message').text(`Something went wrong: ${err.message}`);
+      });
+}
+
+function trailsString(coordinates) {
+    let radius = $('.distance').val();
+    let params = {
+        key: trailKey,
+        lat: coordinates.lat,
+        lon: coordinates.lon,
+        maxDistance: radius,
+        maxResults: 50
+    }
+    let paramsArr = Object.entries(params);
+    let newParamsArr = [];
+    for (let i = 0; i < paramsArr.length; i++) {
+        let subArr = paramsArr[i].join('=');
+        newParamsArr.push(subArr);
+    }
+    let trailQueryString = newParamsArr.join('&');
+    return trailQueryString;
+    console.log(trailQueryString);
+    console.log(newParamsArr);
+    console.log(radius);
+    console.log(params);
+}
+
+
 
 /*
 $(function changeHike() {
