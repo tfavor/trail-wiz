@@ -10,7 +10,7 @@ function chooseHiking() {
     $("header").addClass('hidden');
     $(".nav-bar-container").removeClass('hidden');
     $(".main-search-container").removeClass('hidden');
-    handleSubmit();
+    handleMainSubmit();
     console.log(trailsUrl);
 }
 /* choosing to look for biking trails at the beginning */
@@ -19,15 +19,8 @@ function chooseBiking() {
     $("header").addClass('hidden');
     $(".nav-bar-container").removeClass('hidden');
     $(".main-search-container").removeClass('hidden');
-    handleSubmit();
+    handleMainSubmit();
     console.log(trailsUrl);
-}
-
-function getFormValues() {
-    let city = $('.location').val();
-    let radius = $('.distance').val();
-    return city;
-    return radius;
 }
 
 $(function choose() {
@@ -41,7 +34,7 @@ $(function choose() {
     });
 })
 
-function handleSubmit() {
+function handleMainSubmit() {
     $(".search-form").on('submit', function(event) {
         event.preventDefault();
         callGeoCode();
@@ -58,7 +51,7 @@ function callGeoCode() {
         }
         throw new Error(response.statusText);
       })
-      .then(responseJson => console.log(responseJson))
+      .then(responseJson => returnGeoCodeResults(responseJson))
       .catch(err => {
         $('#js-error-message').text(`Something went wrong: ${err.message}`);
       });
@@ -85,6 +78,15 @@ function geoCodeQueryString() {
     }
     let queryString = newParamsArr.join('&');
     return queryString;
+}
+
+function returnGeoCodeResults (responseJson) {
+    let results = responseJson.results[0];
+    let lat = results.geometry.lat;
+    let lng = results.geometry.lng;
+    console.log(results);
+    console.log(lat);
+    console.log(lng);
 }
 
 /*
