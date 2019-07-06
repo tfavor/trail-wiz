@@ -1,12 +1,12 @@
 const trailKey = '200507765-d555489db7aa873777c05ace340f460d';
-const appId = 'OnsRRoCMl2ZmKhSIWQ8a';
-const appCode = '96rL5FNqiCEvWqWaoS4QUw';
+const geoCodeApi = '122b0842140d449c8ba12fa2fbc35be5';
+const geoCodeUrl = 'https://api.opencagedata.com/geocode/v1/json';
 let trailsUrl = '';
+
 
 /* choosing to look for hiking trails at the beginning */
 function chooseHiking() {
     trailsUrl = 'https://www.hikingproject.com/data/get-trails';
-    event.preventDefault();
     $("header").addClass('hidden');
     $(".nav-bar-container").removeClass('hidden');
     $(".main-search-container").removeClass('hidden');
@@ -16,7 +16,6 @@ function chooseHiking() {
 /* choosing to look for biking trails at the beginning */
 function chooseBiking() {
     trailsUrl = 'https://www.mtbproject.com/data/get-trails';
-    event.preventDefault();
     $("header").addClass('hidden');
     $(".nav-bar-container").removeClass('hidden');
     $(".main-search-container").removeClass('hidden');
@@ -25,13 +24,10 @@ function chooseBiking() {
 }
 
 function getFormValues() {
-    let city = '';
-    let radius = '';
-    event.preventDefault();
-    city = $('.location').val();
-    radius = $('.distance').val();
-    console.log(city);
-    console.log(radius);
+    let city = $('.location').val();
+    let radius = $('.distance').val();
+    return city;
+    return radius;
 }
 
 $(function choose() {
@@ -48,10 +44,48 @@ $(function choose() {
 function handleSubmit() {
     $(".search-form").on('submit', function(event) {
         event.preventDefault();
-        getFormValues()
+        callGeoCode();
     });
 }
 
+function callGeoCode() {
+    let url = geoCodeUrl + '?' +  geoCodeQueryString();
+    console.log(url);
+    fetch(url)
+    .then(response => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error(response.statusText);
+      })
+      .then(responseJson => console.log(responseJson))
+      .catch(err => {
+        $('#js-error-message').text(`Something went wrong: ${err.message}`);
+      });
+      console.log();
+}
+
+function getGeolocation() {
+    let lat = '';
+    let long = '';
+}
+
+function geoCodeQueryString() {
+    let city = $('.location').val();
+    let radius = $('.distance').val();
+    let params = {
+        key: geoCodeApi,
+        q: city
+    };
+    let paramsArr = Object.entries(params);
+    let newParamsArr = [];
+    for (let i = 0; i < paramsArr.length; i++) {
+        let subArr = paramsArr[i].join('=')
+        newParamsArr.push(subArr);
+    }
+    let queryString = newParamsArr.join('&');
+    return queryString;
+}
 
 /*
 $(function changeHike() {
