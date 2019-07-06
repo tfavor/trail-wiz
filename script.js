@@ -10,7 +10,7 @@ function chooseHiking() {
     $("header").addClass('hidden');
     $(".nav-bar-container").removeClass('hidden');
     $(".main-search-container").removeClass('hidden');
-    handleMainSubmit();
+    
     console.log(trailsUrl);
 }
 /* choosing to look for biking trails at the beginning */
@@ -19,7 +19,7 @@ function chooseBiking() {
     $("header").addClass('hidden');
     $(".nav-bar-container").removeClass('hidden');
     $(".main-search-container").removeClass('hidden');
-    handleMainSubmit();
+   
     console.log(trailsUrl);
 }
 
@@ -34,15 +34,18 @@ $(function choose() {
     });
 })
 
-function handleMainSubmit() {
+$(function handleMainSubmit() {
     $(".search-form").on('submit', function(event) {
         event.preventDefault();
-        callGeoCode();
+        let city = $('.location').val();
+        callGeoCode(city);
+        $(".main-search-container").addClass('hidden');
+        $(".results-container").removeClass('hidden');
     });
-}
+})
 
-function callGeoCode() {
-    let url = geoCodeUrl + '?' +  geoCodeQueryString();
+function callGeoCode(city) {
+    let url = geoCodeUrl + '?' +  geoCodeQueryString(city);
     console.log(url);
     fetch(url)
     .then(response => {
@@ -58,9 +61,8 @@ function callGeoCode() {
       console.log();
 }
 
-function geoCodeQueryString() {
-    let city = $('.location').val();
-    let radius = $('.distance').val();
+function geoCodeQueryString(city) {
+    
     let params = {
         key: geoCodeApi,
         q: city
@@ -97,7 +99,7 @@ function getTrails(coordinates) {
         }
         throw new Error(response.statusText);
       })
-      .then(responseJson => console.log(responseJson))
+      .then(responseJson => displayTrails(responseJson))
       .catch(err => {
         $('#js-error-message').text(`Something went wrong: ${err.message}`);
       });
@@ -110,7 +112,7 @@ function trailsString(coordinates) {
         lat: coordinates.lat,
         lon: coordinates.lon,
         maxDistance: radius,
-        maxResults: 50
+        maxResults: 500
     }
     let paramsArr = Object.entries(params);
     let newParamsArr = [];
@@ -120,13 +122,40 @@ function trailsString(coordinates) {
     }
     let trailQueryString = newParamsArr.join('&');
     return trailQueryString;
-    console.log(trailQueryString);
-    console.log(newParamsArr);
-    console.log(radius);
-    console.log(params);
 }
 
+function displayTrails(responseJson) {
+    let trails = '';
+    for (let i = 0; i < responseJson.trails.length; i++) {
+        trails += `<li class="results-list-item" id="trail-1">
+        <div class="list-item-content">
+        <h4 class="trail-name">${responseJson.trails[i].name}</h4>
+        <div class="trail-content hidden">
+            <p>${responseJson.trails[i].summary}</p>
+            <p>${responseJson.trails[i].conditionDetails}</p>
+            <p>${responseJson.trails[i].location}</p>
+        </div>
+        </div> 
+    </li>`;
+    }
+    console.log(trails);
+    $(".results-list").html(trails);
+    showListContent();
+} 
+function showListContent() {
+    $("li").on('click', function(event) {
+        $(this).find(".trail-content").toggleClass('hidden');
+    })
+}
 
+$(function handleResultsSearch() {
+    $(".results-search-form").on('submit', function(event) {
+        event.preventDefault();
+        let city = $(this).find('.location').val();
+        console.log(city);
+        callGeoCode(city);
+    });
+})
 
 /*
 $(function changeHike() {
