@@ -3,14 +3,13 @@ const geoCodeApi = '122b0842140d449c8ba12fa2fbc35be5';
 const geoCodeUrl = 'https://api.opencagedata.com/geocode/v1/json';
 let trailsUrl = '';
 
-
 /* choosing to look for hiking trails at the beginning */
 function chooseHiking() {
     trailsUrl = 'https://www.hikingproject.com/data/get-trails';
     $("header").addClass('hidden');
     $(".nav-bar-container").removeClass('hidden');
     $(".main-search-container").removeClass('hidden');
-    
+    handleMainSubmit();
     console.log(trailsUrl);
 }
 /* choosing to look for biking trails at the beginning */
@@ -19,11 +18,11 @@ function chooseBiking() {
     $("header").addClass('hidden');
     $(".nav-bar-container").removeClass('hidden');
     $(".main-search-container").removeClass('hidden');
-   
+   handleMainSubmit();
     console.log(trailsUrl);
 }
 
-$(function choose() {
+function choose() {
     $(".hike, .bike").on('click', function(event) {
         event.preventDefault();
         if (this.id == 'hiking') {
@@ -32,18 +31,19 @@ $(function choose() {
             chooseBiking();
         }
     });
-})
+}
 
-$(function handleMainSubmit() {
-    $(".search-form").on('submit', function(event) {
+function handleMainSubmit() {
+    $(".main-search-form").on('submit', function(event) {
         event.preventDefault();
-        let city = $('.location').val();
-        callGeoCode(city);
         $(".main-search-container").addClass('hidden');
         $(".results-container").removeClass('hidden');
+        let city = $('.main-location').val();
+        callGeoCode(city);
     });
-})
-
+}
+function change() {
+}
 function callGeoCode(city) {
     let url = geoCodeUrl + '?' +  geoCodeQueryString(city);
     console.log(url);
@@ -85,7 +85,9 @@ function returnGeoCodeResults (responseJson) {
     coordinates.lat = resultsObj.geometry.lat;
     coordinates.lon = resultsObj.geometry.lng;
     } else {
-       console.log("invaled city or state");
+        console.log('wriong');
+       $('.results-list').html(`<h3>nothing to display</h3>
+       <p>invaled city</p>`);
     }
     getTrails(coordinates);
 }
@@ -131,9 +133,9 @@ function displayTrails(responseJson) {
         <div class="list-item-content">
         <h4 class="trail-name">${responseJson.trails[i].name}</h4>
         <div class="trail-content hidden">
-            <p>${responseJson.trails[i].summary}</p>
-            <p>${responseJson.trails[i].conditionDetails}</p>
-            <p>${responseJson.trails[i].location}</p>
+            <p>Summary: <span class="description">${responseJson.trails[i].summary}</span></p>
+            <p>Condition: <span class="description">${responseJson.trails[i].conditionDetails}</span></p>
+            <p>Location: <span class="description">${responseJson.trails[i].location}</span></p>
         </div>
         </div> 
     </li>`;
@@ -151,12 +153,44 @@ function showListContent() {
 $(function handleResultsSearch() {
     $(".results-search-form").on('submit', function(event) {
         event.preventDefault();
-        let city = $(this).find('.location').val();
-        console.log(city);
+        $(".main-search-form").empty();
+        let city = $(".results-location").val();
         callGeoCode(city);
     });
 })
 
+$(function navigateHike() {
+    $(".hiking-option").on('click', function(event) {
+        event.preventDefault();
+        trailsUrl = 'https://www.hikingproject.com/data/get-trails';
+        ifEmpty();
+        /*let city = $(".search-form, .result-input-values").find('.location').val();*/
+    });
+})
+$(function navigateBike() {
+    $(".biking-option").on('click', function(event) {
+        event.preventDefault();
+        trailsUrl = 'https://www.mtbproject.com/data/get-trails';
+        ifEmpty();
+        /*let city = $(".search-form, result-input-values").find('.location').val();*/
+    });
+})
+
+function ifEmpty() {
+    let city = '';
+    if ($(".results-location").val() === "") {
+       city = $(".main-location").val();
+    } else {
+        city = $(".results-location").val();
+    }
+    console.log(city);
+    callGeoCode(city);
+}
+
+$(function begin() {
+    console.log("app loaded, choose option");
+    choose();
+})
 /*
 $(function changeHike() {
     $(".hike").on('click', function(event) {

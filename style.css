@@ -184,6 +184,9 @@ main {
 button {
     background-color: grey;
 }
+.description {
+    margin-left: 10px;
+}
 
 
 /* screen size between 768px and  1124px*/
