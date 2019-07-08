@@ -40,7 +40,6 @@ function getCity() {
     callGeoCode(city);
 }
 
-
 function callGeoCode(city) {
     let url = geoCodeUrl + '?' +  geoCodeQueryString(city);
     console.log(url);
@@ -130,14 +129,20 @@ function displayTrails(responseJson) {
     let summary = '';
     let condition = '';
     let location = '';
-    for (let i = 0; i < responseJson.trails.length; i++) {
-        name = responseJson.trails[i].name;
-        summary = responseJson.trails[i].summary;
-        condition = responseJson.trails[i].conditionDetails;
-        location = responseJson.trails[i].location
-        trails += getListItem(name, summary, condition, location);
+    if (responseJson.trails.length > 0) {
+        for (let i = 0; i < responseJson.trails.length; i++) {
+            name = responseJson.trails[i].name;
+            summary = responseJson.trails[i].summary;
+            condition = responseJson.trails[i].conditionDetails;
+            location = responseJson.trails[i].location
+            trails += getListItem(name, summary, condition, location);
+        }
+        $(".results-list").html(`<h3>nothing to display</h3>
+        <p>invaled city</p>`);
+    } else {
+        $('.results-list').html(`<h3>nothing to display</h3>
+       <p>invaled city</p>`);
     }
-    console.log(trails);
     $(".results-list").html(trails);
     showListContent();
 } 
@@ -177,12 +182,6 @@ $(function navigateBike() {
     });
 })
 
-function results() {
-    if ($(".results-location").val() !== "") {
-        $(".main-search-form").empty();
-        city = $(".results-location").val();
-    } 
-}
 $(function begin() {
     console.log("app loaded, choose option");
     choose();
