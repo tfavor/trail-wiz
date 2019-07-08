@@ -1,49 +1,46 @@
 const trailKey = '200507765-d555489db7aa873777c05ace340f460d';
 const geoCodeApi = '122b0842140d449c8ba12fa2fbc35be5';
 const geoCodeUrl = 'https://api.opencagedata.com/geocode/v1/json';
-let trailsUrl = '';
-
-/* choosing to look for hiking trails at the beginning */
-function chooseHiking() {
-    trailsUrl = 'https://www.hikingproject.com/data/get-trails';
-    $("header").addClass('hidden');
-    $(".nav-bar-container").removeClass('hidden');
-    $(".main-search-container").removeClass('hidden');
-    handleMainSubmit();
-    console.log(trailsUrl);
-}
-/* choosing to look for biking trails at the beginning */
-function chooseBiking() {
-    trailsUrl = 'https://www.mtbproject.com/data/get-trails';
-    $("header").addClass('hidden');
-    $(".nav-bar-container").removeClass('hidden');
-    $(".main-search-container").removeClass('hidden');
-   handleMainSubmit();
-    console.log(trailsUrl);
-}
+const hikingUrl = 'https://www.hikingproject.com/data/get-trails';
+const bikingUrl = 'https://www.mtbproject.com/data/get-trails';
+let activeTrailsUrl = '';
 
 function choose() {
     $(".hike, .bike").on('click', function(event) {
         event.preventDefault();
         if (this.id == 'hiking') {
-            chooseHiking();
+            activeTrailsUrl = hikingUrl;
         } else if (this.id == 'biking') {
-            chooseBiking();
+            activeTrailsUrl = bikingUrl;
         }
+        $("header").addClass('hidden');
+        $(".nav-bar-container").removeClass('hidden');
+        $(".main-search-container").removeClass('hidden');
+        console.log(activeTrailsUrl);
     });
 }
 
-function handleMainSubmit() {
-    $(".main-search-form").on('submit', function(event) {
+$(function handleSubmit() {
+    $(".search-form").on('submit', function(event) {
         event.preventDefault();
         $(".main-search-container").addClass('hidden');
         $(".results-container").removeClass('hidden');
-        let city = $('.main-location').val();
-        callGeoCode(city);
+        getCity();
     });
+})
+
+function getCity() {
+    let city = '';
+    if ($(".results-location").val() === "") {
+       city = $(".main-location").val();
+    } else {
+        city = $(".results-location").val();
+    }
+    console.log(city);
+    callGeoCode(city);
 }
-function change() {
-}
+
+
 function callGeoCode(city) {
     let url = geoCodeUrl + '?' +  geoCodeQueryString(city);
     console.log(url);
@@ -75,6 +72,7 @@ function geoCodeQueryString(city) {
     }
     let queryString = newParamsArr.join('&');
     return queryString;
+    console.log(queryString);
 }
 
 function returnGeoCodeResults (responseJson) {
@@ -93,7 +91,7 @@ function returnGeoCodeResults (responseJson) {
 }
 
 function getTrails(coordinates) {
-    let url = trailsUrl + '?' +  trailsString(coordinates);
+    let url = activeTrailsUrl + '?' +  trailsString(coordinates);
     fetch(url)
     .then(response => {
         if (response.ok) {
@@ -128,124 +126,64 @@ function trailsString(coordinates) {
 
 function displayTrails(responseJson) {
     let trails = '';
+    let name = '';
+    let summary = '';
+    let condition = '';
+    let location = '';
     for (let i = 0; i < responseJson.trails.length; i++) {
-        trails += `<li class="results-list-item" id="trail-1">
-        <div class="list-item-content">
-        <h4 class="trail-name">${responseJson.trails[i].name}</h4>
-        <div class="trail-content hidden">
-            <p>Summary: <span class="description">${responseJson.trails[i].summary}</span></p>
-            <p>Condition: <span class="description">${responseJson.trails[i].conditionDetails}</span></p>
-            <p>Location: <span class="description">${responseJson.trails[i].location}</span></p>
-        </div>
-        </div> 
-    </li>`;
+        name = responseJson.trails[i].name;
+        summary = responseJson.trails[i].summary;
+        condition = responseJson.trails[i].conditionDetails;
+        location = responseJson.trails[i].location
+        trails += getListItem(name, summary, condition, location);
     }
     console.log(trails);
     $(".results-list").html(trails);
     showListContent();
 } 
+
+function getListItem(name, summary, condition, location) {
+    let listItem = `<li class="results-list-item" id="trail-1">
+    <div class="list-item-content">
+    <h4 class="trail-name">${name}</h4>
+    <div class="trail-content hidden">
+        <p>Summary: <span class="description">${summary}</span></p>
+        <p>Condition: <span class="description">${condition}</span></p>
+        <p>Location: <span class="description">${location}</span></p>
+    </div>
+    </div> 
+</li>`;
+return listItem;
+}
+
 function showListContent() {
     $("li").on('click', function(event) {
         $(this).find(".trail-content").toggleClass('hidden');
     })
 }
 
-$(function handleResultsSearch() {
-    $(".results-search-form").on('submit', function(event) {
-        event.preventDefault();
-        $(".main-search-form").empty();
-        let city = $(".results-location").val();
-        callGeoCode(city);
-    });
-})
-
 $(function navigateHike() {
     $(".hiking-option").on('click', function(event) {
         event.preventDefault();
-        trailsUrl = 'https://www.hikingproject.com/data/get-trails';
-        ifEmpty();
-        /*let city = $(".search-form, .result-input-values").find('.location').val();*/
+        activeTrailsUrl = hikingUrl;
+        getCity();
     });
 })
 $(function navigateBike() {
     $(".biking-option").on('click', function(event) {
         event.preventDefault();
-        trailsUrl = 'https://www.mtbproject.com/data/get-trails';
-        ifEmpty();
-        /*let city = $(".search-form, result-input-values").find('.location').val();*/
+        activeTrailsUrl = bikingUrl;
+        getCity();
     });
 })
 
-function ifEmpty() {
-    let city = '';
-    if ($(".results-location").val() === "") {
-       city = $(".main-location").val();
-    } else {
+function results() {
+    if ($(".results-location").val() !== "") {
+        $(".main-search-form").empty();
         city = $(".results-location").val();
-    }
-    console.log(city);
-    callGeoCode(city);
+    } 
 }
-
 $(function begin() {
     console.log("app loaded, choose option");
     choose();
 })
-/*
-$(function changeHike() {
-    $(".hike").on('click', function(event) {
-        event.preventDefault();
-        $("header").addClass('hidden');
-        $(".nav-bar-container").removeClass('hidden');
-        $(".main-search-container").removeClass('hidden');
-    })
-})
-
-$(function changebike() {
-    $(".bike").on('click', function(event) {
-        event.preventDefault();
-        $("header").addClass('hidden');
-        $(".nav-bar-container").removeClass('hidden');
-        $(".main-search-container").removeClass('hidden');
-    })
-})
-
-$(function navigateHike() {
-    $(".hiking-option").on('click', function(event) {
-        event.preventDefault();
-        $(".main-search-container").removeClass('hidden');
-        $(".results-container").addClass('hidden');
-    });
-})
-
-$(function navigateBike() {
-    $(".biking-option").on('click', function(event) {
-        event.preventDefault();
-        $(".main-search-container").removeClass('hidden');
-        $(".results-container").addClass('hidden');
-    });
-})
-
-$(function getResults() {
-    $(".main-search-form").on('submit', function(event) {
-        event.preventDefault();
-        $(".main-search-container").addClass('hidden');
-        $(".results-container").removeClass('hidden');
-    });
-})
-
-$(function getNewResults() {
-    $(".results-search-form").on('submit', function(event) {
-        event.preventDefault();
-        $(".main-search-container").addClass('hidden');
-        $(".results-container").removeClass('hidden');
-    })
-})
-
-$(function showListContent() {
-    $("li").on('click', function(event) {
-        $(this).find(".trail-content").toggleClass('hidden');
-    })
-}) 
-*/
-
