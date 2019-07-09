@@ -105,7 +105,7 @@ function getTrails(coordinates) {
 }
 
 function trailsString(coordinates) {
-    let radius = $('.distance').val();
+    let radius = getDistance();
     let params = {
         key: trailKey,
         lat: coordinates.lat,
@@ -122,6 +122,18 @@ function trailsString(coordinates) {
     let trailQueryString = newParamsArr.join('&');
     return trailQueryString;
 }
+
+function getDistance() {
+    let distance = '';
+    if ($(".results-distance").val() === "") {
+       distance = $(".main-distance").val();
+    } else {
+        distance = $(".results-distance").val();
+    }
+    console.log(distance);
+    return distance;
+}
+
 
 function displayTrails(responseJson) {
     let trails = '';
