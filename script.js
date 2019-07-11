@@ -5,8 +5,8 @@ const hikingUrl = 'https://www.hikingproject.com/data/get-trails';
 const bikingUrl = 'https://www.mtbproject.com/data/get-trails';
 let activeTrailsUrl = '';
 const platform = new H.service.Platform({
-    'app_id': 'OnsRRoCMl2ZmKhSIWQ8a',
-    'app_code': '96rL5FNqiCEvWqWaoS4QUw'
+    'apikey': 'pr5RtcsszDg-Oa9CzOcUrbeq2WcSSa3Uhp299390XA8'
+    /*'app_code': '96rL5FNqiCEvWqWaoS4QUw'*/
     });
 
 function choose() {
@@ -167,10 +167,7 @@ function getListItem(name, summary, condition, location, id) {
     let listItem = `<li class="results-list-item">
     <h3 class="trail-name">${name}</h3>
     <div class="list-item-content">
-
-    
     <div class="map-container" id="${id}"></div>
-    
     <div class="trail-content hidden">
         <p>Location: <span class="description">${location}</span></p>
         <p>Summary: <span class="description">${summary}</span></p>
@@ -203,7 +200,7 @@ function getMap(mapObjArr) {
         var maptypes = platform.createDefaultLayers();
         var map = new H.Map(
         document.getElementById(mapObjArr[i].id),
-        maptypes.normal.map,
+        maptypes.vector.normal.map,
         {
           zoom: 10,
           center: { lng: mapObjArr[i].lng, lat: mapObjArr[i].lat  }
@@ -259,4 +256,5 @@ $(function begin() {
 })
 
 
-/*<div class="trail-header">*/
+/*<div class="trail-header">
+lng: mapObjArr[i].lng, lat: mapObjArr[i].lat*/
