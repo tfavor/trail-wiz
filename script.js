@@ -4,6 +4,10 @@ const geoCodeUrl = 'https://api.opencagedata.com/geocode/v1/json';
 const hikingUrl = 'https://www.hikingproject.com/data/get-trails';
 const bikingUrl = 'https://www.mtbproject.com/data/get-trails';
 let activeTrailsUrl = '';
+const platform = new H.service.Platform({
+    'app_id': 'OnsRRoCMl2ZmKhSIWQ8a',
+    'app_code': '96rL5FNqiCEvWqWaoS4QUw'
+    });
 
 function choose() {
     $(".hike, .bike").on('click', function(event) {
@@ -74,7 +78,7 @@ function geoCodeQueryString(city) {
     console.log(queryString);
 }
 
-function returnGeoCodeResults (responseJson) {
+function returnGeoCodeResults(responseJson) {
     let resultsObj = {};
     let coordinates = {};
     if (responseJson.results.length > 0) {
@@ -82,7 +86,6 @@ function returnGeoCodeResults (responseJson) {
     coordinates.lat = resultsObj.geometry.lat;
     coordinates.lon = resultsObj.geometry.lng;
     } else {
-        console.log('wriong');
        $('.results-list').html(`<h3>nothing to display</h3>
        <p>invaled city</p>`);
     }
@@ -134,49 +137,105 @@ function getDistance() {
     return distance;
 }
 
-
 function displayTrails(responseJson) {
+    let id = '';
     let trails = '';
     let name = '';
-    let summary = '';
-    let condition = '';
     let location = '';
+    let checkedCondition = '';
+    let checkedSummary = '';
     if (responseJson.trails.length > 0) {
         for (let i = 0; i < responseJson.trails.length; i++) {
+            id = "mapContainer" + responseJson.trails.indexOf(responseJson.trails[i]);
             name = responseJson.trails[i].name;
-            summary = responseJson.trails[i].summary;
-            condition = responseJson.trails[i].conditionDetails;
-            location = responseJson.trails[i].location
-            trails += getListItem(name, summary, condition, location);
+            let summary = responseJson.trails[i].summary;
+            checkedSummary = checkSummary(summary);
+            let condition = responseJson.trails[i].conditionDetails;
+            checkedCondition = checkCondition(condition);
+            location = responseJson.trails[i].location;
+            trails += getListItem(name, checkedSummary, checkedCondition, location, id);
         }
-        $(".results-list").html(`<h3>nothing to display</h3>
-        <p>invaled city</p>`);
     } else {
         $('.results-list').html(`<h3>nothing to display</h3>
        <p>invaled city</p>`);
     }
     $(".results-list").html(trails);
-    showListContent();
+    getMapArr(responseJson);
 } 
 
-function getListItem(name, summary, condition, location) {
-    let listItem = `<li class="results-list-item" id="trail-1">
+function getListItem(name, summary, condition, location, id) {
+    let listItem = `<li class="results-list-item">
+    <h3 class="trail-name">${name}</h3>
     <div class="list-item-content">
-    <h4 class="trail-name">${name}</h4>
+
+    
+    <div class="map-container" id="${id}"></div>
+    
     <div class="trail-content hidden">
+        <p>Location: <span class="description">${location}</span></p>
         <p>Summary: <span class="description">${summary}</span></p>
         <p>Condition: <span class="description">${condition}</span></p>
-        <p>Location: <span class="description">${location}</span></p>
     </div>
     </div> 
 </li>`;
 return listItem;
 }
 
+function getMapArr(responseJson) {
+    console.log(responseJson);
+    let idArr = [];
+    let mapObjArr = [];
+    for (let i = 0; i < responseJson.trails.length; i++) {
+
+        let mapObj = {
+            id:  "mapContainer" + responseJson.trails.indexOf(responseJson.trails[i]),
+            lat: responseJson.trails[i].latitude,
+            lng: responseJson.trails[i].longitude
+        };
+        mapObjArr.push(mapObj);
+    }
+    console.log(mapObjArr);
+    getMap(mapObjArr);
+}
+
+function getMap(mapObjArr) {
+    for (let i = 0; i < mapObjArr.length; i++) {
+        var maptypes = platform.createDefaultLayers();
+        var map = new H.Map(
+        document.getElementById(mapObjArr[i].id),
+        maptypes.normal.map,
+        {
+          zoom: 10,
+          center: { lng: mapObjArr[i].lng, lat: mapObjArr[i].lat  }
+        });
+    }
+    $(".map-container").addClass('hidden');
+    showListContent();
+}
+
+function checkCondition(condition) {
+    if (condition === null || "") {
+        condition = "Unknown";
+    } else {
+        condition = condition;
+    }
+    return condition;
+}
+
+function checkSummary(summary) {
+    if (summary === "") {
+        summary = "No information available.";
+    } else {
+        summary = summary;
+    }
+    return summary;
+}
+
 function showListContent() {
     $("li").on('click', function(event) {
         $(this).find(".trail-content").toggleClass('hidden');
-    })
+        $(this).find(".map-container").toggleClass('hidden');
+    });
 }
 
 $(function navigateHike() {
@@ -198,3 +257,6 @@ $(function begin() {
     console.log("app loaded, choose option");
     choose();
 })
+
+
+/*<div class="trail-header">*/

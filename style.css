@@ -180,12 +180,27 @@ main {
     cursor: pointer;
     border-bottom: 1px solid black;
     margin: 10px 10px;
+    padding-bottom: 10px;
+}
+/*.trail-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}*/
+.trail-name {
+    margin: 0 10px;;
 }
 button {
     background-color: grey;
 }
 .description {
     margin-left: 10px;
+}
+.map-container {
+    margin-top: 5px;
+    width: 400px;
+    height: 300px;
+    border: 1px solid black;
 }
 
 
@@ -203,15 +218,17 @@ button {
         height: 60px;
     }
     .main-search-form>button {
-        width: calc(100% - 20px);
+        width: calc(100% - 25px);
         height: 80px;
         border-radius: 0%;
     }
+ 
 }
 
 
 /* screen size over 1123px */
-@media only screen and (min-width: 1000px) {
+@media only screen and (min-width: 850px) {
+
     .results-search {
         justify-content: flex-end;
         align-items: flex-end;
@@ -221,11 +238,25 @@ button {
         margin-right: 28px;
         margin-top: 10px;
     }
- 
-}
+    .list-item-content {
+        display: flex;
+        flex-direction: row;
+    }
+    .trail-name {
+        margin: 0;
+    }
+    .list-item-content :nth-child(1) {
+        order: 2;
+    }
+    .list-item-content :nth-child(2) {
+        order: 1;
+    }
+    .trail-content {
+        align-self: flex-end;
+        width: calc(100% - 420px);
+        /*width: calc(100% - 420px);
+        position: relative;
+        bottom: 140px;*/
+    }
 
-.map-container {
-    background-color: red;
-    width: 100px;
-    height: 100px;
-}
+ 
