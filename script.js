@@ -5,8 +5,7 @@ const hikingUrl = 'https://www.hikingproject.com/data/get-trails';
 const bikingUrl = 'https://www.mtbproject.com/data/get-trails';
 let activeTrailsUrl = '';
 const platform = new H.service.Platform({
-    'apikey': 'pr5RtcsszDg-Oa9CzOcUrbeq2WcSSa3Uhp299390XA8'
-    /*'app_code': '96rL5FNqiCEvWqWaoS4QUw'*/
+    apikey: 'pr5RtcsszDg-Oa9CzOcUrbeq2WcSSa3Uhp299390XA8'
     });
 
 function choose() {
