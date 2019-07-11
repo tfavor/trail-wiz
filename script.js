@@ -253,7 +253,3 @@ $(function begin() {
     console.log("app loaded, choose option");
     choose();
 })
-
-
-/*<div class="trail-header">
-lng: mapObjArr[i].lng, lat: mapObjArr[i].lat*/
