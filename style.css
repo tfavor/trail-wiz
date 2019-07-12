@@ -9,12 +9,13 @@ html, body {
 header {
     display: flex;
     flex-direction: row;
+    width: 100;
     height: 100%;
-    text-align: center;
 }
 /* first page to load */
 
 .hike {
+    text-align: center;
     background-image: url(jonathon-reed-XF1pu2ZoaXI-unsplash.jpg);
     background-position: center;
     background-size: cover;
@@ -22,11 +23,13 @@ header {
     box-sizing: border-box;
     cursor: pointer;
     background-color: darkgray;
-    width: 50%;
+    width: 100%;
     height: 100%;
     border-right: 1px solid black;
+
 }
 .bike {
+    text-align: center;
     background-image: url(daniel-frank-UwvGAmVeQ1I-unsplash.jpg);
     background-position: center;
     background-size: cover;
@@ -34,34 +37,23 @@ header {
     box-sizing: border-box;
     cursor: pointer;
     background-color: grey;
-    width: 50%;
+    width: 100%;
     height: 100%;
     border-left: 1px solid black;
+
 }
 
 .hike>h2 {
-    background-color: rgb(155,0,10);
-    position: absolute;
-    top: 8%;
-    left: 120px;
+    background-color: rgb(249,207,128);
+    margin: auto;
+    padding-top: 25px;
     width: 100px;
     text-align: center;
-}
-header>h3 {
-    color: red;
-    position: absolute;
-    font-size: 20px;
-    top: 8%;
-    left: 50%;
-    width: 100px;
-    text-align: center;
-
 }
 .bike>h2 {
-    background-color: rgb(74,143,32);
-    position: absolute;
-    top: 8%;
-    right: 120px;
+    background-color: rgb(0,52,100);
+    margin: auto;
+    padding-top: 25px;
     width: 100px;
     text-align: center;
 }
@@ -75,22 +67,22 @@ header>h3 {
     flex-direction: row;
 }
 .hiking-option {
+    background-color: rgb(249,207,128);
     text-align: left;
     position: absolute;
     margin: 0;
     cursor: pointer;
-    background-color: darkgrey;
     width: 100%;
     height: 100%;
     -webkit-clip-path: polygon(0 0, 54.5% 0%, 44.5% 100%, 0% 99.5%);
     clip-path: polygon(0 0, 54.5% 0%, 44.5% 100%, 0% 99.5%);
 }
 .biking-option {
+    background-color: rgb(0,52,100);
     text-align: right;
     position: absolute;
     margin: 0;
     cursor: pointer;
-    background-color: grey;
     width: 100%;
     height: 100%;
     -webkit-clip-path: polygon(55.5% .5%, 100% 0%, 100% 100%, 45.5% 100%);
@@ -102,8 +94,10 @@ header>h3 {
 .biking-option>h3 {
     padding: 0 30px;
 }
-main {
+.main-content {
     height: 100%;
+    background-size: cover;
+    background-position: center;
 }
 .main-search-container {
     height: calc(100% - 50px);
@@ -116,6 +110,8 @@ main {
     height: calc(100% - 50px);
 }
 .main-search-form {
+    background-color: rgb(255,255,255,.5);
+    
     width: 95%;
     height: 100%;
     display: flex;
@@ -137,6 +133,7 @@ main {
     height: 60px;
 }
 .main-search-form>button {
+    background-color: grey;
     width: 100%;
     height: 80px;
     border-radius: 0%;
@@ -173,6 +170,7 @@ main {
     height: 30px;
 }
 .results-search-form>button {
+    background-color: white;
     margin-top: 5px;
     margin-bottom: 30px;
     width: 100%;
@@ -283,3 +281,4 @@ button {
     }
 }
  
+/*background-color: rgb(198,173,139);*/

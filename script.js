@@ -13,8 +13,10 @@ function choose() {
         event.preventDefault();
         if (this.id == 'hiking') {
             activeTrailsUrl = hikingUrl;
+            $(".main-content").css('background-image', 'url("jonathon-reed-XF1pu2ZoaXI-unsplash.jpg")')
         } else if (this.id == 'biking') {
             activeTrailsUrl = bikingUrl;
+            $(".main-content").css('background-image', 'url("daniel-frank-UwvGAmVeQ1I-unsplash.jpg")')
         }
         $("header").addClass('hidden');
         $(".nav-bar-container").removeClass('hidden');
