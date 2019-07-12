@@ -19,6 +19,7 @@ function choose() {
         $("header").addClass('hidden');
         $(".nav-bar-container").removeClass('hidden');
         $(".main-search-container").removeClass('hidden');
+        $(".main-content").removeClass('hidden');
         console.log(activeTrailsUrl);
     });
 }
@@ -86,7 +87,7 @@ function returnGeoCodeResults(responseJson) {
     coordinates.lon = resultsObj.geometry.lng;
     } else {
        $('.results-list').html(`<h3>nothing to display</h3>
-       <p>invaled city</p>`);
+       <p>invaled city or state</p>`);
     }
     getTrails(coordinates);
 }

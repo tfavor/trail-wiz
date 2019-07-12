@@ -6,42 +6,62 @@ html, body {
 .hidden {
     display: none;
 }
-
-/* first page to load */
-.hike, .bike {
-    position: absolute;
+header {
+    display: flex;
+    flex-direction: row;
     height: 100%;
-    width: 65%;
-  }
+    text-align: center;
+}
+/* first page to load */
+
 .hike {
+    background-image: url(jonathon-reed-XF1pu2ZoaXI-unsplash.jpg);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    box-sizing: border-box;
     cursor: pointer;
     background-color: darkgray;
-    width: 100%;
+    width: 50%;
     height: 100%;
-    -webkit-clip-path: polygon(0 0, 99.5% 0%, 0% 99.5%);
-    clip-path: polygon(0 0, 99.5% 0%, 0% 99.5%);
+    border-right: 1px solid black;
 }
 .bike {
+    background-image: url(daniel-frank-UwvGAmVeQ1I-unsplash.jpg);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    box-sizing: border-box;
     cursor: pointer;
     background-color: grey;
-    width: 100%;
+    width: 50%;
     height: 100%;
-    -webkit-clip-path: polygon(100% .5%, 100% 100%, .5% 100%);
-    clip-path: polygon(100% .5%, 100% 100%, .5% 100%);
+    border-left: 1px solid black;
 }
+
 .hike>h2 {
-    background-color: white;
+    background-color: rgb(155,0,10);
     position: absolute;
-    top: 25%;
-    left: 20%;
+    top: 8%;
+    left: 120px;
     width: 100px;
     text-align: center;
 }
-.bike>h2 {
-    background-color: white;
+header>h3 {
+    color: red;
     position: absolute;
-    bottom: 25%;
-    right: 20%;
+    font-size: 20px;
+    top: 8%;
+    left: 50%;
+    width: 100px;
+    text-align: center;
+
+}
+.bike>h2 {
+    background-color: rgb(74,143,32);
+    position: absolute;
+    top: 8%;
+    right: 120px;
     width: 100px;
     text-align: center;
 }
@@ -198,7 +218,8 @@ button {
 }
 .map-container {
     margin-top: 5px;
-    width: 400px;
+    width: 100%;
+    max-width: 500px;
     height: 300px;
     border: 1px solid black;
 }
@@ -208,7 +229,7 @@ button {
 @media only screen and (min-width: 600px) {
     .main-search-form {
         width: 400px;
-        height: 500px;
+        height: 420px;
         border: 1px solid black;
     }
     .input-values>input {
@@ -222,7 +243,9 @@ button {
         height: 80px;
         border-radius: 0%;
     }
- 
+    .map-container {
+        width: 450px;
+    }
 }
 
 
@@ -258,5 +281,5 @@ button {
         position: relative;
         bottom: 140px;*/
     }
-
+}
  
