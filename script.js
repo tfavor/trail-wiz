@@ -35,6 +35,8 @@ $(function handleSubmit() {
         event.preventDefault();
         $(".main-search-container").addClass('hidden');
         $(".results-container").removeClass('hidden');
+        $("body").css('background-color', 'rgb(219,205,185)');
+        $("body").css('background-image', 'none')
         getCity();
     });
 })
@@ -43,9 +45,11 @@ function getCity() {
     let city = '';
     if ($(".results-location").val() === "") {
        city = $(".main-location").val();
+       
     } else {
         city = $(".results-location").val();
     }
+    $(".search-location").html(`<h3>trails found in ${city}</h3>`);
     console.log(city);
     callGeoCode(city);
 }
@@ -191,6 +195,7 @@ function displayTrails(responseJson) {
         $('.results-list').html(`<h3>nothing to display</h3>
        <p>invaled city</p>`);
     }
+    $(".results-list").append(`<h2>trails</h2>`)
     $(".results-list").html(trails);
     getMap(trailCords);
     /*getMapArr(responseJson);*/
@@ -198,7 +203,7 @@ function displayTrails(responseJson) {
 
 function getListItem(name, summary, condition, location) {
     let listItem = `<li class="results-list-item">
-    <h3 class="trail-name">${name}</h3>
+    <h4 class="trail-name">${name}</h4>
     <div class="list-item-content">
     <div class="trail-content hidden">
         <p>Location: <span class="description">${location}</span></p>
@@ -240,7 +245,6 @@ $(function navigateHike() {
     $(".hiking-option").on('click', function(event) {
         event.preventDefault();
         changeNavHike();
-        $("body").css('background-image', 'url("jonathon-reed-XF1pu2ZoaXI-unsplash.jpg")')
         activeTrailsUrl = hikingUrl;
         getCity();
     });
@@ -249,7 +253,6 @@ $(function navigateBike() {
     $(".biking-option").on('click', function(event) {
         event.preventDefault();
         changeNavBike();
-        $("body").css('background-image', 'url("daniel-frank-UwvGAmVeQ1I-unsplash.jpg")')
         activeTrailsUrl = bikingUrl;
         getCity();
     });

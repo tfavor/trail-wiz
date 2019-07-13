@@ -150,6 +150,7 @@ header {
     height: 100%;
 }
 .results-search {
+    background-color: rgb(255,255,255);
     position: fixed;
     left: 50%;
     top: 50px;
@@ -158,8 +159,8 @@ header {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 95%;
-    margin-top: 10px;
+    width: 97%;
+    margin-top: 5px;
     border: 1px solid black;
 }
 .results-search-form {
@@ -192,12 +193,12 @@ header {
 .results-list-container {
     overflow: auto;
     position: relative;
-    top: 400px;
-    margin: auto;
+    top: 377px;
     border: 1px solid black;
     border-top: none;
-    width: 95%;
-    height: calc(100% - 400px);
+    width: 97%;
+    height: calc(100% - 375px);
+    margin: auto;
 }
 .results-list-container::-webkit-scrollbar {
      width: 0 !important;
@@ -248,7 +249,16 @@ button {
 }
 .map-container {
     width: 100%;
-    height: 300px;
+    height: 240px;
+}
+.search-location {
+    width: 100%;
+    height: 40px;
+    margin-left: 10px;
+    align-self: flex-start;
+}
+.search-location>h3 {
+    margin: 0;
 }
 
 
@@ -259,6 +269,14 @@ button {
         max-width: 450px;
         height: 420px;
         margin: auto;
+    }
+    .results-list-container {
+        top: 437px;
+        height: calc(100% - 445px);
+    }
+    .map-container {
+        width: 100%;
+        height: 300px;
     }
 
 }
@@ -274,7 +292,6 @@ button {
     }
     .results-search-form {
         flex-direction: row;
-        width: 450px;
     }
     .results-list-container {
         width: 95%;
