@@ -2,6 +2,9 @@ html, body {
     box-sizing: border-box;
     margin: 0;
     height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
 }
 .hidden {
     display: none;
@@ -96,8 +99,7 @@ header {
 }
 .main-content {
     height: 100%;
-    background-size: cover;
-    background-position: center;
+
 }
 .main-search-container {
     height: calc(100% - 50px);
@@ -110,72 +112,72 @@ header {
     height: calc(100% - 50px);
 }
 .main-search-form {
-    background-color: rgb(255,255,255,.5);
-    
     width: 95%;
-    height: 100%;
+    height: 400px;
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    flex-direction: row;
     align-items: center;
 }
 .input-values {
     width: 100%;
     overflow: hidden;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    margin-bottom: 50px;
 }
 .input-values>input {
-    padding: 0 10px;
-    border: 1px solid black; 
+    padding-left: 10px;
+    border: none;
     border-radius: 0%;
-    margin: 10px 0;
-    height: 60px;
+    margin: 0;
+    height: 40px;
+    width: calc(100% - 90px);
 }
-.main-search-form>button {
-    background-color: grey;
-    width: 100%;
-    height: 80px;
-    border-radius: 0%;
-    margin: 10px 0;
+.input-values>button {
+    display: inline-block;
+    background-color: rgb(249,207,128);
+    width: 90px;
+    border: none;
 }
 .results {
     width: 100%;
 }
 .results-search {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 100%;
+    width: 95%;
+    margin: auto;
+    margin-top: 10px;
+    border: 1px solid black;
 }
 .results-search-form {
-    width: 95%;
-    height: 95%;
+    width: 100%;
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    flex-direction: row;
     align-items: center;
 }
 .result-input-values {
     width: 100%;
     overflow: hidden;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    border-bottom: 1px solid black;
 }
 .result-input-values>input {
-    padding: 0 10px;
-    border: 1px solid black; 
+    padding-left: 10px;
+    border: none;
     border-radius: 0%;
-    margin: 5px 0;
-    height: 30px;
+    margin: 0;
+    height: 40px;
+    width: calc(100% - 90px);
 }
-.results-search-form>button {
-    background-color: white;
-    margin-top: 5px;
-    margin-bottom: 30px;
-    width: 100%;
-    height: 30px;
-    border-radius: 0%;
+.result-input-values>button {
+    display: inline-block;
+    background-color: rgb(249,207,128);
+    width: 90px;
+    border: none;
 }
 .results-list-container {
     margin: auto;
@@ -192,7 +194,7 @@ header {
 }
 .results-list-item {
     width: 100%;
-    
+    cursor: pointer;
 }
 .results-list-item>div {
     cursor: pointer;
@@ -215,31 +217,28 @@ button {
     margin-left: 10px;
 }
 .map-container {
-    margin-top: 5px;
     width: 100%;
-    max-width: 500px;
     height: 300px;
-    border: 1px solid black;
 }
 
 
 /* screen size between 768px and  1124px*/
 @media only screen and (min-width: 600px) {
     .main-search-form {
-        width: 400px;
+        width: 500px;
         height: 420px;
-        border: 1px solid black;
+        
     }
     .input-values>input {
-        border: 1px solid black; 
+        border: none;
         border-radius: 0%;
-        margin: 10px 10px;
-        height: 60px;
+        margin: 0;
+        height: 40px;
     }
     .main-search-form>button {
-        width: calc(100% - 25px);
-        height: 80px;
-        border-radius: 0%;
+        width: 90px;
+        height: 40px;
+        border: 1px solid rgb(249,207,128);
     }
     .map-container {
         width: 450px;
@@ -250,14 +249,22 @@ button {
 /* screen size over 1123px */
 @media only screen and (min-width: 850px) {
 
+    .input-values>input {
+    }
+    .main-search-form>button {
+
+    }
     .results-search {
         justify-content: flex-end;
         align-items: flex-end;
     }
     .results-search-form {
+        flex-direction: row;
+        width: 100%;
+    }
+    .result-input-values {
+        align-self: flex-start;
         width: 300px;
-        margin-right: 28px;
-        margin-top: 10px;
     }
     .list-item-content {
         display: flex;

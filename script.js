@@ -7,16 +7,20 @@ let activeTrailsUrl = '';
 const platform = new H.service.Platform({
     apikey: 'pr5RtcsszDg-Oa9CzOcUrbeq2WcSSa3Uhp299390XA8'
     });
+    let lat = '';
+    let lng = '';
 
 function choose() {
     $(".hike, .bike").on('click', function(event) {
         event.preventDefault();
         if (this.id == 'hiking') {
             activeTrailsUrl = hikingUrl;
-            $(".main-content").css('background-image', 'url("jonathon-reed-XF1pu2ZoaXI-unsplash.jpg")')
+            changeNavHike();
+            $("body").css('background-image', 'url("jonathon-reed-XF1pu2ZoaXI-unsplash.jpg")')
         } else if (this.id == 'biking') {
             activeTrailsUrl = bikingUrl;
-            $(".main-content").css('background-image', 'url("daniel-frank-UwvGAmVeQ1I-unsplash.jpg")')
+            changeNavBike();
+            $("body").css('background-image', 'url("daniel-frank-UwvGAmVeQ1I-unsplash.jpg")')
         }
         $("header").addClass('hidden');
         $(".nav-bar-container").removeClass('hidden');
@@ -32,6 +36,7 @@ $(function handleSubmit() {
         $(".main-search-container").addClass('hidden');
         $(".results-container").removeClass('hidden');
         getCity();
+        getMap();
     });
 })
 
@@ -87,11 +92,27 @@ function returnGeoCodeResults(responseJson) {
     resultsObj = responseJson.results[0];
     coordinates.lat = resultsObj.geometry.lat;
     coordinates.lon = resultsObj.geometry.lng;
+    lat = resultsObj.geometry.lat;
+    lng = resultsObj.geometry.lng;
     } else {
        $('.results-list').html(`<h3>nothing to display</h3>
        <p>invaled city or state</p>`);
     }
     getTrails(coordinates);
+    console.log(lng);
+    console.log(lat);
+}
+
+function getMap() {
+    $('.results-search').append(`<div class="map-container" id="mapContainer"></div>`);
+    var maptypes = platform.createDefaultLayers();
+    var map = new H.Map(
+    document.getElementById('mapContainer'),
+    maptypes.vector.normal.map,
+    {
+      zoom: 8,
+      center: { lng: lng, lat: lat  }
+    });
 }
 
 function getTrails(coordinates) {
@@ -110,12 +131,10 @@ function getTrails(coordinates) {
 }
 
 function trailsString(coordinates) {
-    let radius = getDistance();
     let params = {
         key: trailKey,
         lat: coordinates.lat,
         lon: coordinates.lon,
-        maxDistance: radius,
         maxResults: 500
     }
     let paramsArr = Object.entries(params);
@@ -128,16 +147,7 @@ function trailsString(coordinates) {
     return trailQueryString;
 }
 
-function getDistance() {
-    let distance = '';
-    if ($(".results-distance").val() === "") {
-       distance = $(".main-distance").val();
-    } else {
-        distance = $(".results-distance").val();
-    }
-    console.log(distance);
-    return distance;
-}
+
 
 function displayTrails(responseJson) {
     let id = '';
@@ -162,14 +172,14 @@ function displayTrails(responseJson) {
        <p>invaled city</p>`);
     }
     $(".results-list").html(trails);
-    getMapArr(responseJson);
+    showListContent();
+    /*getMapArr(responseJson);*/
 } 
 
 function getListItem(name, summary, condition, location, id) {
     let listItem = `<li class="results-list-item">
     <h3 class="trail-name">${name}</h3>
     <div class="list-item-content">
-    <div class="map-container" id="${id}"></div>
     <div class="trail-content hidden">
         <p>Location: <span class="description">${location}</span></p>
         <p>Summary: <span class="description">${summary}</span></p>
@@ -180,37 +190,6 @@ function getListItem(name, summary, condition, location, id) {
 return listItem;
 }
 
-function getMapArr(responseJson) {
-    console.log(responseJson);
-    let idArr = [];
-    let mapObjArr = [];
-    for (let i = 0; i < responseJson.trails.length; i++) {
-
-        let mapObj = {
-            id:  "mapContainer" + responseJson.trails.indexOf(responseJson.trails[i]),
-            lat: responseJson.trails[i].latitude,
-            lng: responseJson.trails[i].longitude
-        };
-        mapObjArr.push(mapObj);
-    }
-    console.log(mapObjArr);
-    getMap(mapObjArr);
-}
-
-function getMap(mapObjArr) {
-    for (let i = 0; i < mapObjArr.length; i++) {
-        var maptypes = platform.createDefaultLayers();
-        var map = new H.Map(
-        document.getElementById(mapObjArr[i].id),
-        maptypes.vector.normal.map,
-        {
-          zoom: 10,
-          center: { lng: mapObjArr[i].lng, lat: mapObjArr[i].lat  }
-        });
-    }
-    $(".map-container").addClass('hidden');
-    showListContent();
-}
 
 function checkCondition(condition) {
     if (condition === null || "") {
@@ -233,13 +212,15 @@ function checkSummary(summary) {
 function showListContent() {
     $("li").on('click', function(event) {
         $(this).find(".trail-content").toggleClass('hidden');
-        $(this).find(".map-container").toggleClass('hidden');
+       
     });
 }
 
 $(function navigateHike() {
     $(".hiking-option").on('click', function(event) {
         event.preventDefault();
+        changeNavHike();
+        $("body").css('background-image', 'url("jonathon-reed-XF1pu2ZoaXI-unsplash.jpg")')
         activeTrailsUrl = hikingUrl;
         getCity();
     });
@@ -247,6 +228,8 @@ $(function navigateHike() {
 $(function navigateBike() {
     $(".biking-option").on('click', function(event) {
         event.preventDefault();
+        changeNavBike();
+        $("body").css('background-image', 'url("daniel-frank-UwvGAmVeQ1I-unsplash.jpg")')
         activeTrailsUrl = bikingUrl;
         getCity();
     });
@@ -256,3 +239,13 @@ $(function begin() {
     console.log("app loaded, choose option");
     choose();
 })
+
+function changeNavHike() {
+    $(".hiking-option").css({"-webkit-clip-path":"polygon(0 0, 74.5% 0%, 64.5% 100%, 0% 99.5%)", "clip-path":"polygon(0 0, 74.5% 0%, 64.5% 100%, 0% 99.5%)"})
+    $(".biking-option").css({"-webkit-clip-path":"polygon(75.5% .5%, 100% 0%, 100% 100%, 65.5% 100%)", "clip-path":"polygon(75.5% .5%, 100% 0%, 100% 100%, 65.5% 100%)"})
+}
+function changeNavBike() {
+    $(".hiking-option").css({"-webkit-clip-path":"polygon(0 0, 24.5% 0%, 34.5% 100%, 0% 99.5%)", "clip-path":"polygon(0 0, 24.5% 0%, 34.5% 100%, 0% 99.5%)"})
+    $(".biking-option").css({"-webkit-clip-path":"polygon(25.5% .5%, 100% 0%, 100% 100%, 35.5% 100%)", "clip-path":"polygon(25.5% .5%, 100% 0%, 100% 100%, 35.5% 100%)"})
+}
+
