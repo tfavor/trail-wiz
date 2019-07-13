@@ -158,12 +158,12 @@ header {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 100%;
+    width: 95%;
     margin-top: 10px;
     border: 1px solid black;
 }
 .results-search-form {
-    width: 450px;
+    width: 100%;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -196,7 +196,7 @@ header {
     margin: auto;
     border: 1px solid black;
     border-top: none;
-    width: 450px;
+    width: 95%;
     height: calc(100% - 400px);
 }
 .results-list-container::-webkit-scrollbar {
@@ -256,8 +256,9 @@ button {
 @media only screen and (min-width: 600px) {
     .main-search-form {
         width: 500px;
+        max-width: 450px;
         height: 420px;
-        
+        margin: auto;
     }
 
 }
