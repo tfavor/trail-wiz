@@ -1,3 +1,4 @@
+
 html, body {
     box-sizing: border-box;
     margin: 0;
@@ -46,17 +47,25 @@ header {
 
 }
 
-.hike>h2 {
+.hike>h1 {
+    font-family: 'Quattrocento', serif;
+    font-size: 25px;
+    color: rgb(0,52,100);
     background-color: rgb(249,207,128);
     margin: auto;
     padding-top: 25px;
+    padding-bottom: 10px;
     width: 100px;
     text-align: center;
 }
-.bike>h2 {
+.bike>h1 {
+    font-family: 'Quattrocento', serif;
+    font-size: 25px;
+    color: rgb(249,207,128);
     background-color: rgb(0,52,100);
     margin: auto;
     padding-top: 25px;
+    padding-bottom: 10px;
     width: 100px;
     text-align: center;
 }
@@ -94,10 +103,14 @@ header {
     -webkit-clip-path: polygon(55.5% .5%, 100% 0%, 100% 100%, 45.5% 100%);
     clip-path: polygon(55.5% .5%, 100% 0%, 100% 100%, 45.5% 100%);
 }
-.hiking-option>h3 {
+.hiking-option>h2 {
+    font-family: 'Quattrocento', serif;
+    color: rgb(0,52,100);
     padding: 0 30px;
 }
-.biking-option>h3 {
+.biking-option>h2 {
+    font-family: 'Quattrocento', serif;
+    color: rgb(249,207,128);
     padding: 0 30px;
 }
 .main-content {
@@ -128,6 +141,8 @@ header {
     margin-bottom: 50px;
 }
 .input-values>input {
+    font-family: 'Fanwood Text', serif;
+    font-size: 16px;
     padding-left: 10px;
     border: none;
     border-radius: 0%;
@@ -136,7 +151,11 @@ header {
     width: calc(100% - 90px);
 }
 .input-values>button {
+    font-family: 'Fanwood Text', serif;
+    font-size: 20px;
+    font-weight: bold;
     display: inline-block;
+    color: rgb(0,52,100);
     background-color: rgb(249,207,128);
     width: 90px;
     border: none;
@@ -219,7 +238,7 @@ header {
     cursor: pointer;
 }
 ul>.results-list-item:nth-child(odd){
-    background-color: rgb(242,242,242);
+    background-color: rgb(242,236,230);
 }​
 ul>.results-list-item:nth-child(even){
     background-color: rgb(255,255,255);
@@ -230,13 +249,14 @@ ul>.results-list-item:nth-child(even){
     margin: 10px 10px;
     padding-bottom: 10px;
 }
-/*.trail-header {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-}*/
 .trail-name {
-    margin: 10px 10px;;
+    font-family: 'Quattrocento', serif;
+    font-size: 18px;
+    margin-right: 10px; 
+}
+.length {
+    font-family: 'Quattrocento', serif;
+    font-size: 18px;
 }
 button {
     background-color: grey;
@@ -260,9 +280,25 @@ button {
 .search-location>h3 {
     margin: 0;
 }
+.trail-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 10px 10px;
+}
+.difficulty {
+    font-family: 'Fanwood Text', serif;
+    display: inline-block;
+    margin-left: 5px;
+    font-size: 12px;
+}
+.trail-content {
+    font-size: 16px;
+    font-family: 'Fanwood Text', serif;
+}
 
 
-/* screen size between 768px and  1124px*/
+/* screen size between 600px and  1124px*/
 @media only screen and (min-width: 600px) {
     .main-search-form {
         width: 500px;
@@ -310,10 +346,6 @@ button {
     .trail-content {
         align-self: flex-end;
         width: calc(100% - 420px);
-        /*width: calc(100% - 420px);
-        position: relative;
-        bottom: 140px;*/
     }
 }
  
-/*background-color: rgb(198,173,139);*/

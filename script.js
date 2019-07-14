@@ -35,8 +35,6 @@ $(function handleSubmit() {
         event.preventDefault();
         $(".main-search-container").addClass('hidden');
         $(".results-container").removeClass('hidden');
-        $("body").css('background-color', 'rgb(219,205,185)');
-        $("body").css('background-image', 'none')
         getCity();
     });
 })
@@ -97,14 +95,13 @@ function returnGeoCodeResults(responseJson) {
     coordinates.lon = resultsObj.geometry.lng;
     lat = resultsObj.geometry.lat;
     lng = resultsObj.geometry.lng;
+    getTrails(coordinates);
     } else {
        $('.results-list').html(`<h3>nothing to display</h3>
        <p>invaled city or state</p>`);
     }
 
     $(".map-container").empty();
-
-    getTrails(coordinates);
     console.log(lng);
     console.log(lat);
 }
@@ -115,12 +112,12 @@ function getMap(trailCords) {
         document.getElementById('mapContainer'),
         maptypes.vector.normal.map,
         {
-          zoom: 10,
+          zoom: 8.4,
           center: { lng: lng, lat: lat  }
         });
 
-        /*var circle = new H.map.Circle({lng: lng, lat: lat}, 48280.3);
-    map.addObject(circle);*/
+        var circle = new H.map.Circle({lng: lng, lat: lat}, 48280.3);
+    map.addObject(circle);
     /*getMapMarkers(map);
     map.addObject(parisMarker);*/
     showListContent(trailCords, map);
@@ -172,6 +169,8 @@ function displayTrails(responseJson) {
     let trails = '';
     let name = '';
     let location = '';
+    let length = '';
+    let difficulty = '';
     let checkedCondition = '';
     let checkedSummary = '';
     if (responseJson.trails.length > 0) {
@@ -183,7 +182,9 @@ function displayTrails(responseJson) {
             let condition = responseJson.trails[i].conditionDetails;
             checkedCondition = checkCondition(condition);
             location = responseJson.trails[i].location;
-            trails += getListItem(name, checkedSummary, checkedCondition, location, id);
+            length = responseJson.trails[i].length;
+            difficulty = responseJson.trails[i].difficulty;
+            trails += getListItem(name, checkedSummary, checkedCondition, location, length, difficulty);
 
             let cords = {
                 lat: responseJson.trails[i].latitude,
@@ -198,12 +199,14 @@ function displayTrails(responseJson) {
     $(".results-list").append(`<h2>trails</h2>`)
     $(".results-list").html(trails);
     getMap(trailCords);
-    /*getMapArr(responseJson);*/
 } 
 
-function getListItem(name, summary, condition, location) {
+function getListItem(name, summary, condition, location, length, difficulty) {
     let listItem = `<li class="results-list-item">
-    <h4 class="trail-name">${name}</h4>
+    <div class="trail-header">
+    <h2 class="trail-name">${name}<span class="difficulty">${difficulty}</span></h2>
+    <h3 class="length">${length} miles</h3>
+    </div>
     <div class="list-item-content">
     <div class="trail-content hidden">
         <p>Location: <span class="description">${location}</span></p>
@@ -245,6 +248,7 @@ $(function navigateHike() {
     $(".hiking-option").on('click', function(event) {
         event.preventDefault();
         changeNavHike();
+        $("body").css('background-image', 'url("jonathon-reed-XF1pu2ZoaXI-unsplash.jpg")')
         activeTrailsUrl = hikingUrl;
         getCity();
     });
@@ -253,6 +257,7 @@ $(function navigateBike() {
     $(".biking-option").on('click', function(event) {
         event.preventDefault();
         changeNavBike();
+        $("body").css('background-image', 'url("daniel-frank-UwvGAmVeQ1I-unsplash.jpg")')
         activeTrailsUrl = bikingUrl;
         getCity();
     });
@@ -278,7 +283,5 @@ function getTrailMarker(trailCords, map) {
         var parisMarker = new H.map.Marker({lng: trailCords[i].lng, lat: trailCords[i].lat});
         map.addObject(parisMarker);
     }
-
-
     
 }
