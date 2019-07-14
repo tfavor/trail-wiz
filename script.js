@@ -9,6 +9,7 @@ const platform = new H.service.Platform({
     });
 let lat = '';
 let lng = '';
+let mapMarker = '';
 
 function choose() {
     $(".hike, .bike").on('click', function(event) {
@@ -97,8 +98,8 @@ function returnGeoCodeResults(responseJson) {
     lng = resultsObj.geometry.lng;
     getTrails(coordinates);
     } else {
-       $('.results-list').html(`<h3>nothing to display</h3>
-       <p>invaled city or state</p>`);
+        $(".search-location").empty();
+        $(".results-list").html(`<h3 class="allert">! nothing to display, <span>invalid city or state !</span></h3>`);       
     }
 
     $(".map-container").empty();
@@ -106,7 +107,7 @@ function returnGeoCodeResults(responseJson) {
     console.log(lat);
 }
 
-function getMap(trailCords) {
+function getMap(responseJson) {
     var maptypes = platform.createDefaultLayers();
     var map = new H.Map(
         document.getElementById('mapContainer'),
@@ -118,13 +119,15 @@ function getMap(trailCords) {
 
         var circle = new H.map.Circle({lng: lng, lat: lat}, 48280.3);
     map.addObject(circle);
+    mapMarker = new H.map.Marker({lng: lng, lat: lat});
+    map.addObject(mapMarker);
     /*getMapMarkers(map);
     map.addObject(parisMarker);*/
-    showListContent(trailCords, map);
+    showListContent(map, responseJson, mapMarker);
     
 }
 
-function getMapMarkers (map) {
+function getMapMarkers (map, responseJson) {
     var parisMarker = new H.map.Marker({lng: lng, lat: lat});
     map.addObject(parisMarker);
 }
@@ -165,7 +168,6 @@ function trailsString(coordinates) {
 
 
 function displayTrails(responseJson) {
-    let trailCords = []
     let trails = '';
     let name = '';
     let location = '';
@@ -175,7 +177,8 @@ function displayTrails(responseJson) {
     let checkedSummary = '';
     if (responseJson.trails.length > 0) {
         for (let i = 0; i < responseJson.trails.length; i++) {
-            id = "mapContainer" + responseJson.trails.indexOf(responseJson.trails[i]);
+
+            id = responseJson.trails.indexOf(responseJson.trails[i]);
             name = responseJson.trails[i].name;
             let summary = responseJson.trails[i].summary;
             checkedSummary = checkSummary(summary);
@@ -184,27 +187,21 @@ function displayTrails(responseJson) {
             location = responseJson.trails[i].location;
             length = responseJson.trails[i].length;
             difficulty = responseJson.trails[i].difficulty;
-            trails += getListItem(name, checkedSummary, checkedCondition, location, length, difficulty);
+            trails += getListItem(name, checkedSummary, checkedCondition, location, length, difficulty, id);
 
-            let cords = {
-                lat: responseJson.trails[i].latitude,
-                lng: responseJson.trails[i].longitude
-            };
-            trailCords.push(cords);
         }
     } else {
         $('.results-list').html(`<h3>nothing to display</h3>
        <p>invaled city</p>`);
     }
-    $(".results-list").append(`<h2>trails</h2>`)
     $(".results-list").html(trails);
-    getMap(trailCords);
+    getMap(responseJson);
 } 
 
-function getListItem(name, summary, condition, location, length, difficulty) {
+function getListItem(name, summary, condition, location, length, difficulty, id) {
     let listItem = `<li class="results-list-item">
     <div class="trail-header">
-    <h2 class="trail-name">${name}<span class="difficulty">${difficulty}</span></h2>
+    <h2 class="trail-name" id="${id}">${name}<span class="difficulty">${difficulty}</span></h2>
     <h3 class="length">${length} miles</h3>
     </div>
     <div class="list-item-content">
@@ -237,10 +234,18 @@ function checkSummary(summary) {
     return summary;
 }
 
-function showListContent(trailCords, map) {
+function showListContent(map, responseJson, mapMarker) {
+   
     $("li").on('click', function(event) {
-        $(this).find(".trail-content").toggleClass('hidden');
-        getTrailMarker(trailCords, map);
+        $(".trail-content").addClass('hidden')
+        map.removeObject(mapMarker);
+        let trailObj = {}
+        let thisId = $(this).find(".trail-name").attr('id');
+            trailObj = responseJson.trails[thisId];
+        console.log(trailObj);
+        $(this).find(".trail-content").removeClass('hidden');
+        mapMarker = new H.map.Marker({lng: trailObj.longitude, lat: trailObj.latitude});
+        map.addObject(mapMarker); 
     });
 }
 
@@ -277,11 +282,9 @@ function changeNavBike() {
     $(".biking-option").css({"-webkit-clip-path":"polygon(25.5% .5%, 100% 0%, 100% 100%, 35.5% 100%)", "clip-path":"polygon(25.5% .5%, 100% 0%, 100% 100%, 35.5% 100%)"})
 }
 
-function getTrailMarker(trailCords, map) {
-    console.log(trailCords);
-    for (let i = 0; i < trailCords.length; i++) {
-        var parisMarker = new H.map.Marker({lng: trailCords[i].lng, lat: trailCords[i].lat});
-        map.addObject(parisMarker);
-    }
-    
+function getTrailMarker(map, trailObj) {
+        mapMarker = new H.map.Marker({lng: trailObj.longitude, lat: trailObj.latitude});
+        map.addObject(mapMarker); 
+        showListContent(mapMarker);
 }
+

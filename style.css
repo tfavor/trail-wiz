@@ -49,24 +49,27 @@ header {
 
 .hike>h1 {
     font-family: 'Quattrocento', serif;
-    font-size: 25px;
+    font-size: 35px;
     color: rgb(0,52,100);
     background-color: rgb(249,207,128);
+    border: 2px solid rgb(249,207,128);
+    border-top: none;
     margin: auto;
     padding-top: 25px;
     padding-bottom: 10px;
-    width: 100px;
+    width: 100%;
     text-align: center;
 }
 .bike>h1 {
     font-family: 'Quattrocento', serif;
-    font-size: 25px;
+    font-size: 35px;
     color: rgb(249,207,128);
     background-color: rgb(0,52,100);
+    border: 2px solid rgb(0,52,100);
     margin: auto;
     padding-top: 25px;
     padding-bottom: 10px;
-    width: 100px;
+    width: 100%;
     text-align: center;
 }
 
@@ -196,6 +199,8 @@ header {
     
 }
 .result-input-values>input {
+    font-family: 'Fanwood Text', serif;
+    font-size: 16px;
     padding-left: 10px;
     border: none;
     border-radius: 0%;
@@ -204,6 +209,8 @@ header {
     width: calc(100% - 90px);
 }
 .result-input-values>button {
+    font-family: 'Fanwood Text', serif;
+    font-size: 20px;
     display: inline-block;
     background-color: rgb(249,207,128);
     width: 90px;
@@ -274,11 +281,15 @@ button {
 .search-location {
     width: 100%;
     height: 40px;
-    margin-left: 10px;
     align-self: flex-start;
 }
 .search-location>h3 {
     margin: 0;
+    margin-left: 10px;
+    margin-top: 10px;
+}
+.search-location>p {
+    display: inline;
 }
 .trail-header {
     display: flex;
@@ -296,7 +307,17 @@ button {
     font-size: 16px;
     font-family: 'Fanwood Text', serif;
 }
-
+.allert {
+    text-align: center;
+    background-color: black;
+    margin-top: 0%;
+    width: 100%;
+    color: white;
+    padding: 10px 0;
+}
+.display{
+    display: block;
+}
 
 /* screen size between 600px and  1124px*/
 @media only screen and (min-width: 600px) {
