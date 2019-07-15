@@ -16,11 +16,15 @@ function choose() {
         event.preventDefault();
         if (this.id == 'hiking') {
             activeTrailsUrl = hikingUrl;
-            changeNavHike();
+            $(".biking-option").addClass('biking-unselected');
+            $(".hiking-option").addClass('hiking-selected');
+            /*changeNavHike();*/
             $("body").css('background-image', 'url("jonathon-reed-XF1pu2ZoaXI-unsplash.jpg")')
         } else if (this.id == 'biking') {
             activeTrailsUrl = bikingUrl;
-            changeNavBike();
+            $(".biking-option").addClass('biking-selected');
+            $(".hiking-option").addClass('hiking-unselected');
+            /*changeNavBike();*/
             $("body").css('background-image', 'url("daniel-frank-UwvGAmVeQ1I-unsplash.jpg")')
         }
         $("header").addClass('hidden');
@@ -238,23 +242,31 @@ function checkSummary(summary) {
 function showListContent(map, responseJson, mapMarker) {
    
     $("li").on('click', function(event) {
-        $(".trail-content").addClass('hidden')
+        $(".list-item-content").removeClass('display');
+        $(".trail-content").addClass('hidden');
         map.removeObject(mapMarker);
         let trailObj = {}
         let thisId = $(this).find(".trail-name").attr('id');
             trailObj = responseJson.trails[thisId];
         console.log(trailObj);
+
+        $(this).find(".list-item-content").addClass('display');
         $(this).find(".trail-content").removeClass('hidden');
-        
+        $(this).find(".trail-content").addClass('fade');
         mapMarker = new H.map.Marker({lng: trailObj.longitude, lat: trailObj.latitude});
         map.addObject(mapMarker); 
     });
 }
 
+
 $(function navigateHike() {
     $(".hiking-option").on('click', function(event) {
+        $(".biking-option").removeClass('biking-selected');
+        $(".hiking-option").removeClass('hiking-unselected');
+        $(".biking-option").addClass('biking-unselected');
+        $(".hiking-option").addClass('hiking-selected');
         event.preventDefault();
-        changeNavHike();
+        /*changeNavHike();*/
         $("body").css('background-image', 'url("jonathon-reed-XF1pu2ZoaXI-unsplash.jpg")')
         activeTrailsUrl = hikingUrl;
         getCity();
@@ -263,7 +275,11 @@ $(function navigateHike() {
 $(function navigateBike() {
     $(".biking-option").on('click', function(event) {
         event.preventDefault();
-        changeNavBike();
+        $(".hiking-option").removeClass('hiking-selected');
+        $(".biking-option").removeClass('biking-unselected');
+        $(".hiking-option").addClass('hiking-unselected');
+        $(".biking-option").addClass('biking-selected');
+        /*changeNavBike();*/
         $("body").css('background-image', 'url("daniel-frank-UwvGAmVeQ1I-unsplash.jpg")')
         activeTrailsUrl = bikingUrl;
         getCity();
@@ -275,14 +291,14 @@ $(function begin() {
     choose();
 })
 
-function changeNavHike() {
+/*function changeNavHike() {
     $(".hiking-option").css({"-webkit-clip-path":"polygon(0 0, 74.5% 0%, 64.5% 100%, 0% 99.5%)", "clip-path":"polygon(0 0, 74.5% 0%, 64.5% 100%, 0% 99.5%)"})
     $(".biking-option").css({"-webkit-clip-path":"polygon(75.5% .5%, 100% 0%, 100% 100%, 65.5% 100%)", "clip-path":"polygon(75.5% .5%, 100% 0%, 100% 100%, 65.5% 100%)"})
 }
 function changeNavBike() {
     $(".hiking-option").css({"-webkit-clip-path":"polygon(0 0, 24.5% 0%, 34.5% 100%, 0% 99.5%)", "clip-path":"polygon(0 0, 24.5% 0%, 34.5% 100%, 0% 99.5%)"})
     $(".biking-option").css({"-webkit-clip-path":"polygon(25.5% .5%, 100% 0%, 100% 100%, 35.5% 100%)", "clip-path":"polygon(25.5% .5%, 100% 0%, 100% 100%, 35.5% 100%)"})
-}
+}*/
 
 function getTrailMarker(map, trailObj) {
         mapMarker = new H.map.Marker({lng: trailObj.longitude, lat: trailObj.latitude});
