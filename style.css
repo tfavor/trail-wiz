@@ -49,7 +49,6 @@ header {
     width: 100%;
     height: 100%;
     border-right: 1px solid black;
-
 }
 .bike {
     text-align: center;
@@ -63,7 +62,6 @@ header {
     width: 100%;
     height: 100%;
     border-left: 1px solid black;
-
 }
 
 .hike>button {
@@ -74,7 +72,6 @@ header {
     margin: auto;
     padding-top: 25px;
     padding-bottom: 10px;
-    width: 53%;
     text-align: center;
 }
 .hike>button>h1 {
@@ -90,7 +87,6 @@ header {
     margin: auto;
     padding-top: 25px;
     padding-bottom: 10px;
-    width: 53%;
     text-align: center;
 }
 .bike>button>h1 {
