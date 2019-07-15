@@ -44,7 +44,6 @@ function getCity() {
     let city = '';
     if ($(".results-location").val() === "") {
        city = $(".main-location").val();
-       
     } else {
         city = $(".results-location").val();
     }
@@ -171,13 +170,15 @@ function displayTrails(responseJson) {
     let trails = '';
     let name = '';
     let location = '';
+    let cords = {};
     let length = '';
     let difficulty = '';
     let checkedCondition = '';
     let checkedSummary = '';
     if (responseJson.trails.length > 0) {
         for (let i = 0; i < responseJson.trails.length; i++) {
-
+            cords.lat = responseJson.trails[i].latitude;
+            cords.lng = responseJson.trails[i].longitude;
             id = responseJson.trails.indexOf(responseJson.trails[i]);
             name = responseJson.trails[i].name;
             let summary = responseJson.trails[i].summary;
@@ -187,7 +188,7 @@ function displayTrails(responseJson) {
             location = responseJson.trails[i].location;
             length = responseJson.trails[i].length;
             difficulty = responseJson.trails[i].difficulty;
-            trails += getListItem(name, checkedSummary, checkedCondition, location, length, difficulty, id);
+            trails += getListItem(name, checkedSummary, checkedCondition, cords, length, difficulty, id);
 
         }
     } else {
@@ -198,20 +199,20 @@ function displayTrails(responseJson) {
     getMap(responseJson);
 } 
 
-function getListItem(name, summary, condition, location, length, difficulty, id) {
+function getListItem(name, summary, condition, cords, length, difficulty, id) {
     let listItem = `<li class="results-list-item">
     <div class="trail-header">
-    <h2 class="trail-name" id="${id}">${name}<span class="difficulty">${difficulty}</span></h2>
+    <button><h2 class="trail-name" id="${id}">${name}<span class="difficulty">${difficulty}</span></h2></button>
     <h3 class="length">${length} miles</h3>
     </div>
     <div class="list-item-content">
     <div class="trail-content hidden">
-        <p>Location: <span class="description">${location}</span></p>
+        <p>Location: <span class="description"><a href="http://www.google.com/maps/place/${cords.lat},${cords.lng}" target="_blank">See trail location in Google Maps</a></span></p>
         <p>Summary: <span class="description">${summary}</span></p>
         <p>Condition: <span class="description">${condition}</span></p>
     </div>
     </div> 
-</li>`;
+    </li>`;
 return listItem;
 }
 
@@ -288,3 +289,6 @@ function getTrailMarker(map, trailObj) {
         showListContent(mapMarker);
 }
 
+$(function() {
+    $(".tag").fadeIn();
+})
