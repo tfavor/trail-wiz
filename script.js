@@ -245,6 +245,7 @@ function showListContent(map, responseJson, mapMarker) {
             trailObj = responseJson.trails[thisId];
         console.log(trailObj);
         $(this).find(".trail-content").removeClass('hidden');
+        
         mapMarker = new H.map.Marker({lng: trailObj.longitude, lat: trailObj.latitude});
         map.addObject(mapMarker); 
     });
@@ -289,6 +290,3 @@ function getTrailMarker(map, trailObj) {
         showListContent(mapMarker);
 }
 
-$(function() {
-    $(".tag").fadeIn();
-})
