@@ -373,6 +373,7 @@ ul>.results-list-item:nth-child(even){
     font-family: 'Quattrocento', serif;
     font-size: 18px;
     margin-right: 10px; 
+    text-align: left;
 }
 .length {
     font-family: 'Quattrocento', serif;
