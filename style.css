@@ -121,40 +121,43 @@ header {
 /* first page to load */
 
 .hike {
-    background-blend-mode: multiply;
+    /*background-blend-mode: multiply;*/
     position: relative;
     text-align: center;
     background-image: url(jonathon-reed-XF1pu2ZoaXI-unsplash.jpg);
+    background-color: darkgrey;
+    transition: background-color 1s;
+    background-blend-mode: multiply;
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
     box-sizing: border-box;
     cursor: pointer;
-    background-color: darkgray;
     width: 100%;
     height: 100%;
     border-right: 1px solid black;
 }
 .bike {
-    background-blend-mode: multiply;
     position: relative;
     text-align: center;
     background-image: url(daniel-frank-UwvGAmVeQ1I-unsplash.jpg);
+    background-color: darkgrey;
+    transition: background-color 1s;
+    background-blend-mode: multiply;
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
     box-sizing: border-box;
     cursor: pointer;
-    background-color: grey;
     width: 100%;
     height: 100%;
     border-left: 1px solid black;
 }
 .hike:hover {
-    background-blend-mode: normal;
+    background-color: transparent;
 }
 .bike:hover {
-    background-blend-mode: normal;
+    background-color: transparent;
 }
 
 .hike>button {

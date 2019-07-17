@@ -132,8 +132,10 @@ function getMap(responseJson) {
           zoom: 8.4,
           center: { lng: lng, lat: lat  }
         });
-
-        var circle = new H.map.Circle({lng: lng, lat: lat}, 48280.3);
+        let styles = {
+            fillColor: 'rgba(211, 211, 211, 0.4)'
+        };
+        var circle = new H.map.Circle({lng: lng, lat: lat}, 48280.3, {style: styles});
     map.addObject(circle);
     mapMarker = new H.map.Marker({lng: lng, lat: lat});
     map.addObject(mapMarker);
@@ -265,7 +267,6 @@ function classChange(trail) {
     $(".list-item-content").removeClass('display');
     $(".trail-content").addClass('hidden');
     trail.find(".list-item-content").addClass('display');
-    trail.find(".list-item-content").slideDown();
     trail.find(".trail-content").removeClass('hidden');
     trail.find(".trail-content").addClass('fade');
 }
