@@ -1,8 +1,21 @@
+@keyframes drop {
+    from {
+        visibility: hidden;
+        transform: translateY(-78px);
+    }
+    to {
+        visibility: visible;
+        transform: translateY(0px);
+    }
+}
 @keyframes fade {
     0% {
       opacity: 0;
     }
-    50% {
+   50% {
+    opacity: .1;
+   }
+    75% {
         opacity: 0.5;
     }
     100% { 
@@ -11,42 +24,42 @@
   }
   @keyframes bike-selected-fade {
     from {
-      -webkit-clip-path: polygon(75.5% .5%, 100% 0%, 100% 100%, 65.5% 100%);
-      clip-path: polygon(75.5% .5%, 100% 0%, 100% 100%, 65.5% 100%);
+        -webkit-clip-path: polygon(75.5% 10%, 100% 10%, 100% 90%, 67.5% 90%);
+      clip-path: polygon(75.5% 10%, 100% 10%, 100% 90%, 67.5% 90%);
     }
     to {
-      -webkit-clip-path: polygon(25.5% .5%, 100% 0%, 100% 100%, 35.5% 100%);
-      clip-path: polygon(25.5% .5%, 100% 0%, 100% 100%, 35.5% 100%);
+      -webkit-clip-path: polygon(24.5% .5%, 100% 0%, 100% 100%, 34.5% 100%);
+      clip-path: polygon(24.5% .5%, 100% 0%, 100% 100%, 34.5% 100%);
     }
 }
 @keyframes bike-unselected-fade {
   from {
-      -webkit-clip-path: polygon(25.5% .5%, 100% 0%, 100% 100%, 35.5% 100%);
-      clip-path: polygon(25.5% .5%, 100% 0%, 100% 100%, 35.5% 100%);
+      -webkit-clip-path: polygon(24.5% .5%, 100% 0%, 100% 100%, 34.5% 100%);
+      clip-path: polygon(24.5% .5%, 100% 0%, 100% 100%, 34.5% 100%);
   }
   to {
-      -webkit-clip-path: polygon(75.5% .5%, 100% 0%, 100% 100%, 65.5% 100%);
-      clip-path: polygon(75.5% .5%, 100% 0%, 100% 100%, 65.5% 100%);
+      -webkit-clip-path: polygon(75.5% 10%, 100% 10%, 100% 90%, 67.5% 90%);
+      clip-path: polygon(75.5% 10%, 100% 10%, 100% 90%, 67.5% 90%);
   }
 }
   @keyframes hike-selected-fade {
       from {
-        -webkit-clip-path: polygon(0 0, 24.5% 0%, 34.5% 100%, 0% 99.5%);
-        clip-path: polygon(0 0, 24.5% 0%, 34.5% 100%, 0% 99.5%);
+        -webkit-clip-path: polygon(0 10%, 24.5% 10%, 32.5% 90%, 0% 90%);
+        clip-path: polygon(0 10%, 24.5% 10%, 32.5% 90%, 0% 90%);
       }
         to {
-        -webkit-clip-path: polygon(0 0, 74.5% 0%, 64.5% 100%, 0% 99.5%);
-        clip-path: polygon(0 0, 74.5% 0%, 64.5% 100%, 0% 99.5%);
+        -webkit-clip-path: polygon(0 0, 75.5% 0%, 65.5% 100%, 0% 99.5%);
+        clip-path: polygon(0 0, 75.5% 0%, 65.5% 100%, 0% 99.5%);
     }
   }
   @keyframes hike-unselected-fade {
     from {
-        -webkit-clip-path: polygon(0 0, 74.5% 0%, 64.5% 100%, 0% 99.5%);
-        clip-path: polygon(0 0, 74.5% 0%, 64.5% 100%, 0% 99.5%);
+        -webkit-clip-path: polygon(0 0, 75.5% 0%, 65.5% 100%, 0% 99.5%);
+        clip-path: polygon(0 0, 75.5% 0%, 65.5% 100%, 0% 99.5%);
       }
         to {
-            -webkit-clip-path: polygon(0 0, 24.5% 0%, 34.5% 100%, 0% 99.5%);
-        clip-path: polygon(0 0, 24.5% 0%, 34.5% 100%, 0% 99.5%);
+            -webkit-clip-path: polygon(0 10%, 24.5% 10%, 32.5% 90%, 0% 90%);
+        clip-path: polygon(0 10%, 24.5% 10%, 32.5% 90%, 0% 90%);
     }
   }
   @keyframes grow {
@@ -76,10 +89,10 @@ html, body {
     background-attachment: fixed;
 }
 .fade {
-    animation: fade 1s linear forwards;
+    animation: fade .5s linear forwards;
 }
 .display {
-    animation: grow 1s linear forwards;
+    animation: grow .5s linear forwards;
 }
 .biking-selected {
     animation: bike-selected-fade .4s linear forwards;
@@ -94,7 +107,7 @@ html, body {
     animation: hike-unselected-fade .4s linear forwards;
 }
 .tab {
-    animation: fade 2s linear forwards;
+    animation: drop 1.5s linear forwards;
 }
 .hidden {
     display: none;
@@ -108,6 +121,8 @@ header {
 /* first page to load */
 
 .hike {
+    background-blend-mode: multiply;
+    position: relative;
     text-align: center;
     background-image: url(jonathon-reed-XF1pu2ZoaXI-unsplash.jpg);
     background-position: center;
@@ -121,6 +136,8 @@ header {
     border-right: 1px solid black;
 }
 .bike {
+    background-blend-mode: multiply;
+    position: relative;
     text-align: center;
     background-image: url(daniel-frank-UwvGAmVeQ1I-unsplash.jpg);
     background-position: center;
@@ -132,6 +149,12 @@ header {
     width: 100%;
     height: 100%;
     border-left: 1px solid black;
+}
+.hike:hover {
+    background-blend-mode: normal;
+}
+.bike:hover {
+    background-blend-mode: normal;
 }
 
 .hike>button {
@@ -186,8 +209,6 @@ header {
     cursor: pointer;
     width: 100%;
     height: 100%;
-    /*-webkit-clip-path: polygon(0 0, 54.5% 0%, 44.5% 100%, 0% 99.5%);
-    clip-path: polygon(0 0, 54.5% 0%, 44.5% 100%, 0% 99.5%);*/
 }
 .biking-option {
     border: none;
@@ -198,22 +219,20 @@ header {
     cursor: pointer;
     width: 100%;
     height: 100%;
-    /*-webkit-clip-path: polygon(55.5% .5%, 100% 0%, 100% 100%, 45.5% 100%);
-    clip-path: polygon(55.5% .5%, 100% 0%, 100% 100%, 45.5% 100%);*/
 }
 .hiking-option>button {
     font-family: 'Quattrocento', serif;
     border: none;
     background-color: rgb(249,207,128);
     height: 100%;
-    margin: 3px;
+    margin-left: 1.5%;
 }
 .biking-option>button {
     font-family: 'Quattrocento', serif;
     border: none;
     background-color: rgb(0,52,100);
     height: 100%;
-    margin: 3px;
+    margin-right: 1.5%;
 }
 .hiking-option>button>h2 {
     font-family: 'Quattrocento', serif;
@@ -294,9 +313,8 @@ header {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 97%;
-    margin-top: 5px;
-    border: 1px solid black;
+    width: 100%;
+    
 }
 .results-search-form {
     width: 100%;
@@ -332,11 +350,11 @@ header {
 .results-list-container {
     overflow: auto;
     position: relative;
-    top: 377px;
-    border: 1px solid black;
-    border-top: none;
-    width: 97%;
-    height: calc(100% - 375px);
+    top: 370px;
+    
+    border-top: 1px solid black;
+    width: 100%;
+    height: calc(100% - 370px);
     margin: auto;
 }
 .results-list-container::-webkit-scrollbar {
@@ -395,9 +413,14 @@ button {
     align-self: flex-start;
 }
 .search-location>h3 {
+    font-weight: lighter;
     margin: 0;
     margin-left: 10px;
     margin-top: 10px;
+}
+.search-location>h3>span {
+    color: rgb(0,52,100);
+    font-weight: bold;
 }
 .search-location>p {
     display: inline;
@@ -457,9 +480,17 @@ button {
         height: 420px;
         margin: auto;
     }
+    .results-search {
+        width: 97%;
+        margin-top: 5px;
+        border: 1px solid black;
+    }
     .results-list-container {
+        width: 97%;
         top: 437px;
         height: calc(100% - 445px);
+        border: 1px solid black;
+        border-top: none;
     }
     .map-container {
         width: 100%;

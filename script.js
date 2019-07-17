@@ -18,21 +18,23 @@ function choose() {
             activeTrailsUrl = hikingUrl;
             $(".biking-option").addClass('biking-unselected');
             $(".hiking-option").addClass('hiking-selected');
-            /*changeNavHike();*/
             $("body").css('background-image', 'url("jonathon-reed-XF1pu2ZoaXI-unsplash.jpg")')
         } else if (this.id == 'biking') {
             activeTrailsUrl = bikingUrl;
             $(".biking-option").addClass('biking-selected');
             $(".hiking-option").addClass('hiking-unselected');
-            /*changeNavBike();*/
             $("body").css('background-image', 'url("daniel-frank-UwvGAmVeQ1I-unsplash.jpg")')
         }
-        $("header").addClass('hidden');
-        $(".nav-bar-container").removeClass('hidden');
-        $(".main-search-container").removeClass('hidden');
-        $(".main-content").removeClass('hidden');
+        showMainContent();
         console.log(activeTrailsUrl);
     });
+}
+
+function showMainContent() {
+    $("header").addClass('hidden');
+    $(".nav-bar-container").removeClass('hidden');
+    $(".main-search-container").removeClass('hidden');
+    $(".main-content").removeClass('hidden');
 }
 
 $(function handleSubmit() {
@@ -51,9 +53,20 @@ function getCity() {
     } else {
         city = $(".results-location").val();
     }
-    $(".search-location").html(`<h3>trails found in ${city}</h3>`);
+    let cat = getCatigory();
+    $(".search-location").html(`<h3>${cat} trails found in<span class="location-name"> ${city}</span></h3>`);
     console.log(city);
     callGeoCode(city);
+}
+
+function getCatigory() {
+    let cat = '';
+    if ( activeTrailsUrl === hikingUrl) {
+        cat = 'Hiking';
+    } else {
+        cat = 'Biking';
+    }
+    return cat;
 }
 
 function callGeoCode(city) {
@@ -124,10 +137,10 @@ function getMap(responseJson) {
     map.addObject(circle);
     mapMarker = new H.map.Marker({lng: lng, lat: lat});
     map.addObject(mapMarker);
-    /*getMapMarkers(map);
-    map.addObject(parisMarker);*/
     showListContent(map, responseJson, mapMarker);
-    
+    window.addEventListener('resize', function () {
+        map.getViewPort().resize(); 
+    });
 }
 
 function getMapMarkers (map, responseJson) {
@@ -156,7 +169,7 @@ function trailsString(coordinates) {
         key: trailKey,
         lat: coordinates.lat,
         lon: coordinates.lon,
-        maxResults: 500
+        maxResults: 60
     }
     let paramsArr = Object.entries(params);
     let newParamsArr = [];
@@ -167,8 +180,6 @@ function trailsString(coordinates) {
     let trailQueryString = newParamsArr.join('&');
     return trailQueryString;
 }
-
-
 
 function displayTrails(responseJson) {
     let trails = '';
@@ -211,9 +222,9 @@ function getListItem(name, summary, condition, cords, length, difficulty, id) {
     </div>
     <div class="list-item-content">
     <div class="trail-content hidden">
-        <p>Location: <span class="description"><a href="http://www.google.com/maps/place/${cords.lat},${cords.lng}" target="_blank">See trail location in Google Maps</a></span></p>
         <p>Summary: <span class="description">${summary}</span></p>
         <p>Condition: <span class="description">${condition}</span></p>
+        <p>Location: <span class="description"><a href="http://www.google.com/maps/place/${cords.lat},${cords.lng}" target="_blank">See trail location in Google Maps</a></span></p>
     </div>
     </div> 
     </li>`;
@@ -240,65 +251,59 @@ function checkSummary(summary) {
 }
 
 function showListContent(map, responseJson, mapMarker) {
-   
     $("li").on('click', function(event) {
-        $(".list-item-content").removeClass('display');
-        $(".trail-content").addClass('hidden');
         map.removeObject(mapMarker);
         let trailObj = {}
         let thisId = $(this).find(".trail-name").attr('id');
             trailObj = responseJson.trails[thisId];
-        console.log(trailObj);
-
-        $(this).find(".list-item-content").addClass('display');
-        $(this).find(".trail-content").removeClass('hidden');
-        $(this).find(".trail-content").addClass('fade');
         mapMarker = new H.map.Marker({lng: trailObj.longitude, lat: trailObj.latitude});
         map.addObject(mapMarker); 
+        classChange($(this));
     });
+}
+function classChange(trail) {
+    $(".list-item-content").removeClass('display');
+    $(".trail-content").addClass('hidden');
+    trail.find(".list-item-content").addClass('display');
+    trail.find(".list-item-content").slideDown();
+    trail.find(".trail-content").removeClass('hidden');
+    trail.find(".trail-content").addClass('fade');
 }
 
 
 $(function navigateHike() {
     $(".hiking-option").on('click', function(event) {
-        $(".biking-option").removeClass('biking-selected');
-        $(".hiking-option").removeClass('hiking-unselected');
-        $(".biking-option").addClass('biking-unselected');
-        $(".hiking-option").addClass('hiking-selected');
+        changeToHike();
         event.preventDefault();
-        /*changeNavHike();*/
-        $("body").css('background-image', 'url("jonathon-reed-XF1pu2ZoaXI-unsplash.jpg")')
         activeTrailsUrl = hikingUrl;
         getCity();
     });
 })
+
 $(function navigateBike() {
     $(".biking-option").on('click', function(event) {
         event.preventDefault();
-        $(".hiking-option").removeClass('hiking-selected');
-        $(".biking-option").removeClass('biking-unselected');
-        $(".hiking-option").addClass('hiking-unselected');
-        $(".biking-option").addClass('biking-selected');
-        /*changeNavBike();*/
-        $("body").css('background-image', 'url("daniel-frank-UwvGAmVeQ1I-unsplash.jpg")')
+        changeToBike();
         activeTrailsUrl = bikingUrl;
         getCity();
     });
 })
 
-$(function begin() {
-    console.log("app loaded, choose option");
-    choose();
-})
-
-/*function changeNavHike() {
-    $(".hiking-option").css({"-webkit-clip-path":"polygon(0 0, 74.5% 0%, 64.5% 100%, 0% 99.5%)", "clip-path":"polygon(0 0, 74.5% 0%, 64.5% 100%, 0% 99.5%)"})
-    $(".biking-option").css({"-webkit-clip-path":"polygon(75.5% .5%, 100% 0%, 100% 100%, 65.5% 100%)", "clip-path":"polygon(75.5% .5%, 100% 0%, 100% 100%, 65.5% 100%)"})
+function changeToHike() {
+    $("body").css('background-image', 'url("jonathon-reed-XF1pu2ZoaXI-unsplash.jpg")');
+    $(".biking-option").removeClass('biking-selected');
+    $(".hiking-option").removeClass('hiking-unselected');
+    $(".biking-option").addClass('biking-unselected');
+    $(".hiking-option").addClass('hiking-selected');
 }
-function changeNavBike() {
-    $(".hiking-option").css({"-webkit-clip-path":"polygon(0 0, 24.5% 0%, 34.5% 100%, 0% 99.5%)", "clip-path":"polygon(0 0, 24.5% 0%, 34.5% 100%, 0% 99.5%)"})
-    $(".biking-option").css({"-webkit-clip-path":"polygon(25.5% .5%, 100% 0%, 100% 100%, 35.5% 100%)", "clip-path":"polygon(25.5% .5%, 100% 0%, 100% 100%, 35.5% 100%)"})
-}*/
+
+function changeToBike() {
+    $("body").css('background-image', 'url("daniel-frank-UwvGAmVeQ1I-unsplash.jpg")');
+    $(".hiking-option").removeClass('hiking-selected');
+    $(".biking-option").removeClass('biking-unselected');
+    $(".hiking-option").addClass('hiking-unselected');
+    $(".biking-option").addClass('biking-selected');
+}
 
 function getTrailMarker(map, trailObj) {
         mapMarker = new H.map.Marker({lng: trailObj.longitude, lat: trailObj.latitude});
@@ -306,3 +311,7 @@ function getTrailMarker(map, trailObj) {
         showListContent(mapMarker);
 }
 
+$(function begin() {
+    console.log("app loaded, choose option");
+    choose();
+})
