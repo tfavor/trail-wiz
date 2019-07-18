@@ -369,3 +369,8 @@ $(function begin() {
     console.log("app loaded, choose option");
     choose();
 })
+
+$('.distance').keydown(function(e) {
+    e.preventDefault();
+    return false;
+ });
