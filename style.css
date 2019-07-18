@@ -288,6 +288,18 @@ header {
     height: 40px;
     width: calc(100% - 90px);
 }
+.input-values>input[list=radius] {
+    width: 90px;
+    border-left: 1px solid black;
+}
+.input-values>datalist {
+    font-family: 'Fanwood Text', serif;
+    font-size: 16px;
+    border: none;
+    margin: 0;
+    border-radius: 0;
+    width: 20px;
+}
 .input-values>button {
     font-family: 'Fanwood Text', serif;
     font-size: 20px;
@@ -324,6 +336,7 @@ header {
     display: flex;
     flex-direction: row;
     align-items: center;
+    border-bottom: 1px solid black;
 }
 .result-input-values {
     width: 100%;
@@ -341,6 +354,18 @@ header {
     margin: 0;
     height: 38px;
     width: calc(100% - 90px);
+}
+.result-input-values>input[list=radius] {
+    width: 90px;
+    border-left: 1px solid black;
+}
+.result-input-values>datalist {
+    font-family: 'Fanwood Text', serif;
+    font-size: 16px;
+    border: none;
+    margin: 0;
+    border-radius: 0;
+    width: 20px;
 }
 .result-input-values>button {
     font-family: 'Fanwood Text', serif;
@@ -468,6 +493,7 @@ button {
 .border{
     display: block;
 }
+
 
 /* screen size between 600px and  1124px*/
 @media only screen and (min-width: 600px) {

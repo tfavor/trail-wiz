@@ -48,7 +48,16 @@
             <div class="main-search">
                 <form class="main-search-form search-form" action="">
                     <div class="input-values">
-                        <input class="main-location location" type="text" placeholder="city, state" value="waco texas">
+                        <input class="main-location location" type="text" placeholder="city, state" value="austin texas" required>
+                        <input class="main-distance" list="radius" name="miles" placeholder="miles" required>
+                            <datalist id="radius">
+                                <option value="5 miles">
+                                <option value="10 miles">
+                                <option value="15 miles">
+                                <option value="20 miles">
+                                <option value="25 miles">
+                                <option value="30 miles">
+                            </datalist>
                         <button type="submit" value="search">search</button>
                     </div>
                 </form>
@@ -61,7 +70,16 @@
                 <div class="results-search">
                     <form class="results-search-form search-form" action="">
                         <div class="result-input-values">
-                            <input class="results-location location" type="text" placeholder="city, state" value="">
+                            <input class="results-location location" type="text" placeholder="city, state" value="" required>
+                            <input class="results-distance" list="radius" name="miles" placeholder="miles" required>
+                                <datalist id="radius">
+                                    <option value="5 miles">
+                                    <option value="10 miles">
+                                    <option value="15 miles">
+                                    <option value="20 miles">
+                                    <option value="25 miles">
+                                    <option value="30 miles">
+                                </datalist>
                             <button type="submit" value="search">search</button>
                         </div>
                     </form>

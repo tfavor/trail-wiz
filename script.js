@@ -42,9 +42,19 @@ $(function handleSubmit() {
         event.preventDefault();
         $(".main-search-container").addClass('hidden');
         $(".results-container").removeClass('hidden');
-        getCity();
+        getLocationInfo();
     });
 })
+
+function getLocationInfo() {
+    let miles = getRadiusInput();
+    console.log(miles);
+    let city = getCity();
+    let cat = getCatigory();
+    $(".search-location").html(`<h3>${cat} trails found within <span class="location-name">${miles} miles of ${city}</span></h3>`);
+    console.log(city);
+    callGeoCode(city, miles);
+}
 
 function getCity() {
     let city = '';
@@ -53,10 +63,19 @@ function getCity() {
     } else {
         city = $(".results-location").val();
     }
-    let cat = getCatigory();
-    $(".search-location").html(`<h3>${cat} trails found in<span class="location-name"> ${city}</span></h3>`);
-    console.log(city);
-    callGeoCode(city);
+    return city;
+}
+
+function getRadiusInput() {
+    let miles = '';
+    if ($(".results-distance").val() === "") {
+       let milesStr = $(".main-distance").val();
+       miles = milesStr.substring(0, milesStr.length - 6);
+     } else {
+        let milesStr = $(".results-distance").val();
+        miles = milesStr.substring(0, milesStr.length - 6);
+     }
+     return miles;
 }
 
 function getCatigory() {
@@ -69,7 +88,7 @@ function getCatigory() {
     return cat;
 }
 
-function callGeoCode(city) {
+function callGeoCode(city, miles) {
     let url = geoCodeUrl + '?' +  geoCodeQueryString(city);
     console.log(url);
     fetch(url)
@@ -79,7 +98,7 @@ function callGeoCode(city) {
         }
         throw new Error(response.statusText);
       })
-      .then(responseJson => returnGeoCodeResults(responseJson))
+      .then(responseJson => returnGeoCodeResults(responseJson, miles))
       .catch(err => {
         $('#js-error-message').text(`Something went wrong: ${err.message}`);
       });
@@ -103,7 +122,7 @@ function geoCodeQueryString(city) {
     console.log(queryString);
 }
 
-function returnGeoCodeResults(responseJson) {
+function returnGeoCodeResults(responseJson, miles) {
     let resultsObj = {};
     let coordinates = {};
     if (responseJson.results.length > 0) {
@@ -112,7 +131,7 @@ function returnGeoCodeResults(responseJson) {
     coordinates.lon = resultsObj.geometry.lng;
     lat = resultsObj.geometry.lat;
     lng = resultsObj.geometry.lng;
-    getTrails(coordinates);
+    getTrails(coordinates, miles);
     } else {
         $(".search-location").empty();
         $(".results-list").html(`<h3 class="allert">! nothing to display, <span>invalid city or state !</span></h3>`);       
@@ -123,19 +142,21 @@ function returnGeoCodeResults(responseJson) {
     console.log(lat);
 }
 
-function getMap(responseJson) {
+function getMap(responseJson, miles) {
+    let radius = getRadius(miles);
+    let zoomNum = getZoom(miles);
     var maptypes = platform.createDefaultLayers();
     var map = new H.Map(
         document.getElementById('mapContainer'),
         maptypes.vector.normal.map,
         {
-          zoom: 8.4,
+          zoom: zoomNum,
           center: { lng: lng, lat: lat  }
         });
         let styles = {
             fillColor: 'rgba(211, 211, 211, 0.4)'
         };
-        var circle = new H.map.Circle({lng: lng, lat: lat}, 48280.3, {style: styles});
+        var circle = new H.map.Circle({lng: lng, lat: lat}, radius, {style: styles});
     map.addObject(circle);
     mapMarker = new H.map.Marker({lng: lng, lat: lat});
     map.addObject(mapMarker);
@@ -145,14 +166,45 @@ function getMap(responseJson) {
     });
 }
 
-function getMapMarkers (map, responseJson) {
-    var parisMarker = new H.map.Marker({lng: lng, lat: lat});
-    map.addObject(parisMarker);
+function getRadius(miles) {
+    let radius = '';
+    if (miles == 5) {
+        radius = 8046.72;
+    } else if (miles == 10) {
+        radius = 16093.4;
+    } else if (miles == 15) {
+        radius = 24140.2;
+    } else if (miles == 20) {
+        radius = 32186.9;
+    } else if (miles == 25) {
+        radius = 40233.6;
+    } else if (miles == 30) {
+        radius = 48280.3;
+    }
+    return radius;
 }
 
+function getZoom(miles) {
+    let zoomNum = '';
+    if (miles == 5) {
+        zoomNum = 11;
+    } else if (miles == 10) {
+        zoomNum = 10;
+    } else if (miles == 15) {
+        zoomNum = 9.4;
+    } else if (miles == 20) {
+        zoomNum = 9;
+    } else if (miles == 25) {
+        zoomNum = 8.7;
+    } else if (miles == 30) {
+        zoomNum = 8.4;
+    }
+    return zoomNum;
+}
 
-function getTrails(coordinates) {
-    let url = activeTrailsUrl + '?' +  trailsString(coordinates);
+function getTrails(coordinates, miles) {
+    let url = activeTrailsUrl + '?' +  trailsString(coordinates, miles);
+    console.log(url);
     fetch(url)
     .then(response => {
         if (response.ok) {
@@ -160,17 +212,18 @@ function getTrails(coordinates) {
         }
         throw new Error(response.statusText);
       })
-      .then(responseJson => displayTrails(responseJson))
+      .then(responseJson => displayTrails(responseJson, miles))
       .catch(err => {
         $('#js-error-message').text(`Something went wrong: ${err.message}`);
       });
 }
 
-function trailsString(coordinates) {
+function trailsString(coordinates, miles) {
     let params = {
         key: trailKey,
         lat: coordinates.lat,
         lon: coordinates.lon,
+        maxDistance: miles,
         maxResults: 60
     }
     let paramsArr = Object.entries(params);
@@ -183,7 +236,7 @@ function trailsString(coordinates) {
     return trailQueryString;
 }
 
-function displayTrails(responseJson) {
+function displayTrails(responseJson, miles) {
     let trails = '';
     let name = '';
     let location = '';
@@ -213,7 +266,7 @@ function displayTrails(responseJson) {
        <p>invaled city</p>`);
     }
     $(".results-list").html(trails);
-    getMap(responseJson);
+    getMap(responseJson, miles);
 } 
 
 function getListItem(name, summary, condition, cords, length, difficulty, id) {
@@ -277,7 +330,7 @@ $(function navigateHike() {
         changeToHike();
         event.preventDefault();
         activeTrailsUrl = hikingUrl;
-        getCity();
+        getLocationInfo();
     });
 })
 
@@ -286,7 +339,7 @@ $(function navigateBike() {
         event.preventDefault();
         changeToBike();
         activeTrailsUrl = bikingUrl;
-        getCity();
+        getLocationInfo();
     });
 })
 
