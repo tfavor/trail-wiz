@@ -40,11 +40,15 @@ function showMainContent() {
 $(function handleSubmit() {
     $(".search-form").on('submit', function(event) {
         event.preventDefault();
-        $(".main-search-container").addClass('hidden');
-        $(".results-container").removeClass('hidden');
+        showResultsPage();
         getLocationInfo();
     });
 })
+
+function showResultsPage() {
+    $(".main-search-container").addClass('hidden');
+    $(".results-container").removeClass('hidden');
+}
 
 function getLocationInfo() {
     let miles = getRadiusInput();
@@ -69,11 +73,10 @@ function getCity() {
 function getRadiusInput() {
     let miles = '';
     if ($(".results-distance").val() === "") {
-       let milesStr = $(".main-distance").val();
-       miles = milesStr.substring(0, milesStr.length - 6);
+       miles = $(".main-distance").val();
+       console.log(miles);
      } else {
-        let milesStr = $(".results-distance").val();
-        miles = milesStr.substring(0, milesStr.length - 6);
+        miles = $(".results-distance").val();
      }
      return miles;
 }
@@ -368,6 +371,14 @@ function getTrailMarker(map, trailObj) {
 $(function begin() {
     console.log("app loaded, choose option");
     choose();
+})
+
+$(function bla() {
+
+    $(".distance").on('click', function(e) {
+        e.preventDefault();
+        $(".distance").val('');
+    })
 })
 
 $('.distance').keydown(function(e) {
