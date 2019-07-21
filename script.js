@@ -11,6 +11,7 @@ let lat = '';
 let lng = '';
 let mapMarker = '';
 
+/*sets up Url and displayes the correct background image based on the selected option, hiking, or biking.*/
 function choose() {
     $(".hike, .bike").on('click', function(event) {
         event.preventDefault();
@@ -28,7 +29,7 @@ function choose() {
         showMainContent();
     });
 }
-
+/* adds and removes classes to show the second page and form*/
 function showMainContent() {
     $("header").addClass('hidden');
     $(".nav-bar-container").removeClass('hidden');
@@ -36,6 +37,7 @@ function showMainContent() {
     $(".main-content").removeClass('hidden');
 }
 
+/*handles the submit of the search form */
 $(function handleSubmit() {
     $(".search-form").on('submit', function(event) {
         event.preventDefault();
@@ -45,11 +47,13 @@ $(function handleSubmit() {
     });
 })
 
+/* shows result page*/
 function showResultsPage() {
     $(".main-search-container").addClass('hidden');
     $(".results-container").removeClass('hidden');
 }
 
+/* get the radius and city from form on submit*/
 function getLocationInfo() {
     let miles = getRadiusInput();
     let city = getCity();
@@ -65,6 +69,7 @@ function getCity() {
     } else {
         city = $(".results-location").val();
     }
+    $(".results-location").val(city);
     return city;
 }
 
@@ -75,6 +80,7 @@ function getRadiusInput() {
      } else {
         miles = $(".results-miles").val();
      }
+     $(".results-miles").val(miles);
      return miles;
 }
 
@@ -88,6 +94,7 @@ function getCatigory() {
     return cat;
 }
 
+/*calls geoCodeAPI to convert the city input to coordinates */
 function callGeoCode(city, miles) {
     let url = geoCodeUrl + '?' +  geoCodeQueryString(city);
     fetch(url)
@@ -103,6 +110,7 @@ function callGeoCode(city, miles) {
       });
 }
 
+/*gathers the necessary parameters to call the geoCodeAPI */
 function geoCodeQueryString(city) {
     
     let params = {
@@ -120,6 +128,7 @@ function geoCodeQueryString(city) {
 
 }
 
+/*takes necessary info from geoCodeAPI responce in order to find the trails*/
 function returnGeoCodeResults(responseJson, miles) {
     let resultsObj = {};
     let coordinates = {};
@@ -139,6 +148,7 @@ function returnGeoCodeResults(responseJson, miles) {
 
 }
 
+/*displays map */
 function getMap(responseJson, miles) {
     let radius = getRadius(miles);
     let zoomNum = getZoom(miles);
@@ -163,6 +173,7 @@ function getMap(responseJson, miles) {
     });
 }
 
+/*takes radius input and turns it into meters used to display a radius on map */
 function getRadius(miles) {
     let radius = '';
     if (miles == 5) {
@@ -181,6 +192,7 @@ function getRadius(miles) {
     return radius;
 }
 
+/*gets the correct zoom for map in order to always see radius */
 function getZoom(miles) {
     let zoomNum = '';
     if (miles == 5) {
@@ -199,6 +211,7 @@ function getZoom(miles) {
     return zoomNum;
 }
 
+/*call trail API */
 function getTrails(coordinates, miles) {
     let url = activeTrailsUrl + '?' +  trailsString(coordinates, miles);
     fetch(url)
@@ -214,6 +227,7 @@ function getTrails(coordinates, miles) {
       });
 }
 
+/*gather necessary parameters in order to call trail api  */
 function trailsString(coordinates, miles) {
     let params = {
         key: trailKey,
@@ -232,6 +246,7 @@ function trailsString(coordinates, miles) {
     return trailQueryString;
 }
 
+/*sorts through trail API responce and gathers all info to be displayed */
 function displayTrails(responseJson, miles) {
     let trails = '';
     let name = '';
@@ -265,6 +280,7 @@ function displayTrails(responseJson, miles) {
     getMap(responseJson, miles);
 } 
 
+/* constructs a list iten based on trail API responce*/
 function getListItem(name, summary, condition, cords, length, difficulty, id) {
     let listItem = `<li class="results-list-item">
     <div class="trail-header">
@@ -282,7 +298,7 @@ function getListItem(name, summary, condition, cords, length, difficulty, id) {
 return listItem;
 }
 
-
+/*fallback values incase condition is empty*/
 function checkCondition(condition) {
     if (condition === null || condition === "") {
         condition = "Unknown";
@@ -292,6 +308,7 @@ function checkCondition(condition) {
     return condition;
 }
 
+/*fallback values incase summary is empty */
 function checkSummary(summary) {
     if (summary === "") {
         summary = "No information available.";
@@ -301,6 +318,7 @@ function checkSummary(summary) {
     return summary;
 }
 
+/*show list item content when clicked as well as display a marker on the map */
 function showListContent(map, responseJson, mapMarker) {
     $("li").on('click', function(event) {
         mapMarker.setVisibility(false);
@@ -317,20 +335,14 @@ function showListContent(map, responseJson, mapMarker) {
         classChange($(this));
     });
 }
-function classChange(trail) {
 
+function classChange(trail) {
     trail.find(".list-item-content").toggleClass('display');
     trail.find(".trail-content").toggleClass('hidden');
     trail.find(".trail-content").toggleClass('fade');
-
-
-    /*$(".list-item-content").removeClass('display');
-    $(".trail-content").addClass('hidden');
-    trail.find(".list-item-content").addClass('display');
-    trail.find(".trail-content").removeClass('hidden');
-    trail.find(".trail-content").addClass('fade');*/
 }
 
+/*change url, background, and trails to hiking when selected in nav */
 $(function navigateHike() {
     $(".hiking-option").on('click', function(event) {
         changeToHike();
@@ -340,6 +352,7 @@ $(function navigateHike() {
     });
 })
 
+/* change url, background, and trails to biking when selected in nav*/
 $(function navigateBike() {
     $(".biking-option").on('click', function(event) {
         event.preventDefault();
@@ -349,6 +362,7 @@ $(function navigateBike() {
     });
 })
 
+/*animation for hiking change */
 function changeToHike() {
     $("body").css('background-image', 'url("jonathon-reed-XF1pu2ZoaXI-unsplash.jpg")');
     $(".biking-option").removeClass('biking-selected');
@@ -357,6 +371,7 @@ function changeToHike() {
     $(".hiking-option").addClass('hiking-selected');
 }
 
+/*animation for biking change */
 function changeToBike() {
     $("body").css('background-image', 'url("daniel-frank-UwvGAmVeQ1I-unsplash.jpg")');
     $(".hiking-option").removeClass('hiking-selected');
@@ -365,33 +380,7 @@ function changeToBike() {
     $(".biking-option").addClass('biking-selected');
 }
 
-function getTrailMarker(map, trailObj) {
-        mapMarker = new H.map.Marker({lng: trailObj.longitude, lat: trailObj.latitude});
-        map.addObject(mapMarker); 
-        showListContent(mapMarker);
-}
-
 $(function begin() {
     choose();
 })
 
-$(function bla() {
-
-    $(".distance").on('click', function(e) {
-        e.preventDefault();
-        $(".distance").val('');
-    })
-})
-
-$('.distance').keydown(function(e) {
-    e.preventDefault();
-    return false;
- });
- 
- 
-$(function showMilesList() {
-    $(".miles").on('click', function(e) {
-        e.preventDefault();
-        $(".miles-options").toggleClass('hidden');
-    })
-}) 

@@ -20,14 +20,14 @@
     <header>
         <div class="hike" id="hiking" aria-live="polite">
             <button class="tab">
-                <h1>Hiking</h2>
-                <p>(click here for hiking trails)</p>
+                Hiking
+                <span class="button-action">(click here for hiking trails)</span>
             </button>
         </div>
         <div class="bike" id="biking">
             <button class="tab">
-                <h1>Biking</h2>
-                <p>(click here for biking trails)</p>
+                Biking
+                <span class="button-action">(click here for biking trails)</span>
             </button>
         </div>
     </header>
@@ -36,12 +36,12 @@
             <div class="nav-bar">
                 <div class="hiking-option">
                     <button>
-                        <h2>Hiking</h3>
+                        Hiking
                     </button>
                 </div>
                 <div class="biking-option">
                     <button>
-                        <h2>Biking</h3>
+                        Biking
                     </button>
                 </div>
             </div>
@@ -50,10 +50,10 @@
 
         <section class="main-search-container hidden" aria-live="polite">
             <div class="main-search">
-                <form class="main-search-form search-form" action="">
+                <form class="main-search-form search-form">
                     <input class="main-location location" type="text" placeholder="city, state" value="waco texas" required>
-                    <select class="main-miles" name="miles" id="" required>
-                        <option value="">miles        &#xf0d7;</option>
+                    <select class="main-miles" name="miles" required>
+                        <option value="">miles &#xf0d7;</option>
                         <option value="5">5 miles</option>
                         <option value="10">10 miles</option>
                         <option value="15">15 miles</option>
@@ -70,10 +70,10 @@
         <section class="results-container hidden" aria-live="polite">
             <div class="resutls">
                 <div class="results-search">
-                    <form class="results-search-form search-form" action="">
+                    <form class="results-search-form search-form">
                         <input class="results-location location" type="text" placeholder="city, state" value="" required>
-                        <select class="results-miles" name="miles" id="" required>
-                            <option value="">miles <i class="fa fa-caret-down" aria-hidden="true"></i></option>
+                        <select class="results-miles" name="miles" required>
+                            <option value="">miles &#xf0d7;</option>
                             <option value="5">5 miles</option>
                             <option value="10">10 miles</option>
                             <option value="15">15 miles</option>
@@ -84,9 +84,7 @@
                         <input type="submit" value="search">
                     </form>
                     <div class="map-container" id="mapContainer"></div>
-                    <div class="search-location" aria-live="polite">
-                        <h3></h3>
-                    </div>
+                    <div class="search-location" aria-live="polite"></div>
                 </div>
                 <div class="results-list-container">
                     <ul class="results-list" aria-live="polite"></ul>
