@@ -109,9 +109,6 @@ html, body {
 .tab {
     animation: drop 1.5s linear forwards;
 }
-.hidden {
-    display: none;
-}
 header {
     display: flex;
     flex-direction: row;
@@ -161,6 +158,7 @@ header {
 }
 
 .hike>button {
+    cursor: pointer;
     font-family: 'Quattrocento', serif;
     color: rgb(0,52,100);
     background-color: rgb(249,207,128);
@@ -169,13 +167,18 @@ header {
     padding-top: 25px;
     padding-bottom: 10px;
     text-align: center;
+    width: 100%;
 }
 .hike>button>h1 {
     text-align: center;
     margin: 0;    
     font-size: 30px;
 }
+.hike>button>p {
+    font-size: 15px;
+}
 .bike>button {
+    cursor: pointer;
     font-family: 'Quattrocento', serif;
     color: rgb(249,207,128);
     background-color: rgb(0,52,100);
@@ -184,11 +187,15 @@ header {
     padding-top: 25px;
     padding-bottom: 10px;
     text-align: center;
+    width: 100%;
 }
 .bike>button>h1 {
     text-align: center;
     margin: 0;    
     font-size: 30px;
+}
+.bike>button>p {
+    font-size: 15px;
 }
 
 
@@ -265,20 +272,30 @@ header {
     height: calc(100% - 50px);
 }
 .main-search-form {
+    background-color: white;
+    position: relative;
     width: 95%;
-    height: 400px;
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: flex-start;
+    box-shadow: -3px 3px 6px 1px #8888;
+}
+input[type=text] {
+    font-family: 'Fanwood Text', serif;
+    font-size: 17px;
+    border: none;
+    border-right: 1px solid lightgrey;
+    padding-left: 10px;
+    height: 38px;
+    width: calc(100% - 150px);
 }
 .input-values {
     width: 100%;
     overflow: hidden;
     display: flex;
     flex-direction: row;
-    margin-bottom: 50px;
 }
-.input-values>input {
+/*.input-values>input {
     font-family: 'Fanwood Text', serif;
     font-size: 16px;
     padding-left: 10px;
@@ -309,7 +326,7 @@ header {
     background-color: rgb(249,207,128);
     width: 90px;
     border: none;
-}
+}*/
 
 .results {
     width: 100%;
@@ -377,16 +394,17 @@ header {
 }
 .results-list-container {
     overflow: auto;
-    position: relative;
+    position: fixed;
     top: 370px;
-    
+    left: 50%;
+    transform: translate(-50%, 0);
     border-top: 1px solid black;
     width: 100%;
     height: calc(100% - 370px);
-    margin: auto;
+    margin-left: auto;
 }
 .results-list-container::-webkit-scrollbar {
-     width: 0 !important;
+     width: 0px !important;
      }
 .results-list {
     height: calc(100% - 400px);
@@ -432,6 +450,7 @@ button {
     margin-left: 10px;
 }
 .map-container {
+    z-index: 1;
     width: 100%;
     height: 240px;
 }
@@ -441,6 +460,7 @@ button {
     align-self: flex-start;
 }
 .search-location>h3 {
+    font-size: 15px;
     font-weight: lighter;
     margin: 0;
     margin-left: 10px;
@@ -498,15 +518,14 @@ button {
 /* screen size between 600px and  1124px*/
 @media only screen and (min-width: 600px) {
     .hike>button {
-        width: 150px;
+        width: 200px;
     }
     .bike>button {
-        width: 150px;
+        width: 200px;
     }
     .main-search-form {
         width: 500px;
         max-width: 450px;
-        height: 420px;
         margin: auto;
     }
     .results-search {
@@ -516,14 +535,12 @@ button {
     }
     .results-list-container {
         width: 97%;
-        top: 437px;
-        height: calc(100% - 445px);
+        height: calc(100% - 375px);
         border: 1px solid black;
         border-top: none;
     }
     .map-container {
         width: 100%;
-        height: 300px;
     }
 
 }
@@ -559,4 +576,61 @@ button {
         width: calc(100% - 420px);
     }
 }
- 
+
+
+.foo {
+    display: flex;
+    flex-direction: column;
+}
+.miles {
+    font-family: 'Fanwood Text', serif;
+    font-size: 17px;
+    border: none;
+    background-color: white;
+    border-right: 1px solid lightgrey;
+    height: 40px;
+    width: 90px;
+}
+.miles-options {
+    z-index: 2;
+    border: none;
+    border-top: 1px solid black;
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    top: 41px;
+    display: flex;
+    flex-direction: column;
+    width: 88px;
+    box-shadow: -3px 3px 6px 1px #8888;
+}
+label {
+    width: 100%;
+    margin: 0;
+    padding: 5px 0;
+    background-color: white;
+    border: 1px solid black;
+    border-top: none;
+}
+input[type=submit] {
+    font-family: 'Fanwood Text', serif;
+    text-align: center;
+    font-size: 17px;
+    background-color: rgb(249,207,128);
+    color: rgb(0,52,100);
+    border: none;
+    height: 40px;
+    border-left: none;
+    width: 60px;
+}
+
+.hidden {
+    display: none;
+}
+
+select {
+    background-color: white;
+    border:none;
+    width: 90px;
+    height: 40px;
+}

@@ -7,6 +7,7 @@
     <meta name="viewport" content="initial-scale=1.0, width=device-width" />
     <title>trailwiz</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <script src="https://js.api.here.com/v3/3.1/mapsjs-core.js"
     type="text/javascript" charset="utf-8"></script>
     <script src="https://js.api.here.com/v3/3.1/mapsjs-service.js"
@@ -16,14 +17,16 @@
 </head>
 <body>
     <header>
-        <div class="hike" id="hiking">
+        <div class="hike" id="hiking" aria-live="polite">
             <button class="tab">
                 <h1>Hiking</h2>
+                <p>(click here for hiking trails)</p>
             </button>
         </div>
         <div class="bike" id="biking">
             <button class="tab">
                 <h1>Biking</h2>
+                <p>(click here for biking trails)</p>
             </button>
         </div>
     </header>
@@ -44,53 +47,49 @@
         </div>
 
 
-        <section class="main-search-container hidden">
+        <section class="main-search-container hidden" aria-live="polite">
             <div class="main-search">
                 <form class="main-search-form search-form" action="">
-                    <div class="input-values">
-                        <input class="main-location location" type="text" placeholder="city, state" value="" required>
-                        <input class="main-distance distance" list="radius" name="miles" placeholder="miles" required>
-                            <datalist id="radius">
-                                <option value="5">
-                                <option value="10">
-                                <option value="15">
-                                <option value="20">
-                                <option value="25">
-                                <option value="30">
-                            </datalist>
-                        <button type="submit" value="search">search</button>
-                    </div>
+                    <input class="main-location location" type="text" placeholder="city, state" value="waco texas" required>
+                    <select class="main-miles" name="miles" id="" required>
+                        <option value="">miles</option>
+                        <option value="5">5 miles</option>
+                        <option value="10">10 miles</option>
+                        <option value="15">15 miles</option>
+                        <option value="20">20 miles</option>
+                        <option value="25">25 miles</option>
+                        <option value="30">30 miles</option>
+                    </select>
+                    <input type="submit" value="search">
                 </form>
             </div>
         </section>
 
 
-        <section class="results-container hidden">
-            <div class="resutls"></div>
+        <section class="results-container hidden" aria-live="polite">
+            <div class="resutls">
                 <div class="results-search">
                     <form class="results-search-form search-form" action="">
-                        <div class="result-input-values">
-                            <input class="results-location location" type="text" placeholder="city, state" value="" required>
-                            <input class="results-distance distance" list="radius" name="miles" placeholder="miles" required>
-                                <datalist id="radius">
-                                    <option value="5">
-                                    <option value="10">
-                                    <option value="15">
-                                    <option value="20">
-                                    <option value="25">
-                                    <option value="30">
-                                </datalist>
-                            <button type="submit" value="search">search</button>
-                        </div>
+                        <input class="results-location location" type="text" placeholder="city, state" value="" required>
+                        <select class="results-miles" name="miles" id="" required>
+                            <option value="">miles</option>
+                            <option value="5">5 miles</option>
+                            <option value="10">10 miles</option>
+                            <option value="15">15 miles</option>
+                            <option value="20">20 miles</option>
+                            <option value="25">25 miles</option>
+                            <option value="30">30 miles</option>
+                        </select>
+                        <input type="submit" value="search">
                     </form>
                     <div class="map-container" id="mapContainer"></div>
-                    <div class="search-location">
-                        <h3>trails</h3>
+                    <div class="search-location" aria-live="polite">
+                        <h3></h3>
                     </div>
                 </div>
                 <div class="results-list-container">
-                            <ul class="results-list"></ul>
-                    </div>
+                    <ul class="results-list" aria-live="polite"></ul>
+                </div>
             </div>
         </section>
     </main>

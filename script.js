@@ -26,7 +26,6 @@ function choose() {
             $("body").css('background-image', 'url("daniel-frank-UwvGAmVeQ1I-unsplash.jpg")')
         }
         showMainContent();
-        console.log(activeTrailsUrl);
     });
 }
 
@@ -40,6 +39,7 @@ function showMainContent() {
 $(function handleSubmit() {
     $(".search-form").on('submit', function(event) {
         event.preventDefault();
+        $(".miles-options").addClass('hidden');
         showResultsPage();
         getLocationInfo();
     });
@@ -52,18 +52,16 @@ function showResultsPage() {
 
 function getLocationInfo() {
     let miles = getRadiusInput();
-    console.log(miles);
     let city = getCity();
     let cat = getCatigory();
     $(".search-location").html(`<h3>${cat} trails found within <span class="location-name">${miles} miles of ${city}</span></h3>`);
-    console.log(city);
     callGeoCode(city, miles);
 }
 
 function getCity() {
     let city = '';
-    if ($(".results-location").val() === "") {
-       city = $(".main-location").val();
+    if ($(".results-location").val() === '') {
+       city = $(".main-location").val();;
     } else {
         city = $(".results-location").val();
     }
@@ -72,11 +70,10 @@ function getCity() {
 
 function getRadiusInput() {
     let miles = '';
-    if ($(".results-distance").val() === "") {
-       miles = $(".main-distance").val();
-       console.log(miles);
+    if ($(".results-miles")[0].selectedIndex <= 0) {
+       miles = $(".main-miles").val();
      } else {
-        miles = $(".results-distance").val();
+        miles = $(".results-miles").val();
      }
      return miles;
 }
@@ -93,7 +90,6 @@ function getCatigory() {
 
 function callGeoCode(city, miles) {
     let url = geoCodeUrl + '?' +  geoCodeQueryString(city);
-    console.log(url);
     fetch(url)
     .then(response => {
         if (response.ok) {
@@ -105,7 +101,6 @@ function callGeoCode(city, miles) {
       .catch(err => {
         $('#js-error-message').text(`Something went wrong: ${err.message}`);
       });
-      console.log();
 }
 
 function geoCodeQueryString(city) {
@@ -122,7 +117,7 @@ function geoCodeQueryString(city) {
     }
     let queryString = newParamsArr.join('&');
     return queryString;
-    console.log(queryString);
+
 }
 
 function returnGeoCodeResults(responseJson, miles) {
@@ -141,8 +136,7 @@ function returnGeoCodeResults(responseJson, miles) {
     }
 
     $(".map-container").empty();
-    console.log(lng);
-    console.log(lat);
+
 }
 
 function getMap(responseJson, miles) {
@@ -207,7 +201,6 @@ function getZoom(miles) {
 
 function getTrails(coordinates, miles) {
     let url = activeTrailsUrl + '?' +  trailsString(coordinates, miles);
-    console.log(url);
     fetch(url)
     .then(response => {
         if (response.ok) {
@@ -310,7 +303,12 @@ function checkSummary(summary) {
 
 function showListContent(map, responseJson, mapMarker) {
     $("li").on('click', function(event) {
-        map.removeObject(mapMarker);
+        mapMarker.setVisibility(false);
+        $('.results-list-container').animate({
+            scrollTop: $(this).offset().top-370
+        }, 500);
+    
+
         let trailObj = {}
         let thisId = $(this).find(".trail-name").attr('id');
             trailObj = responseJson.trails[thisId];
@@ -320,13 +318,18 @@ function showListContent(map, responseJson, mapMarker) {
     });
 }
 function classChange(trail) {
-    $(".list-item-content").removeClass('display');
+
+    trail.find(".list-item-content").toggleClass('display');
+    trail.find(".trail-content").toggleClass('hidden');
+    trail.find(".trail-content").toggleClass('fade');
+
+
+    /*$(".list-item-content").removeClass('display');
     $(".trail-content").addClass('hidden');
     trail.find(".list-item-content").addClass('display');
     trail.find(".trail-content").removeClass('hidden');
-    trail.find(".trail-content").addClass('fade');
+    trail.find(".trail-content").addClass('fade');*/
 }
-
 
 $(function navigateHike() {
     $(".hiking-option").on('click', function(event) {
@@ -369,7 +372,6 @@ function getTrailMarker(map, trailObj) {
 }
 
 $(function begin() {
-    console.log("app loaded, choose option");
     choose();
 })
 
@@ -385,3 +387,11 @@ $('.distance').keydown(function(e) {
     e.preventDefault();
     return false;
  });
+ 
+ 
+$(function showMilesList() {
+    $(".miles").on('click', function(e) {
+        e.preventDefault();
+        $(".miles-options").toggleClass('hidden');
+    })
+}) 
