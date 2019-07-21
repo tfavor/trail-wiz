@@ -629,7 +629,11 @@ input[type=submit] {
 }
 
 select {
+    font-family: 'FontAwesome', 'Fanwood Text', serif;
+    font-size: 17px;
+    -webkit-appearance: none;
     background-color: white;
+    padding-left: 10px;
     border:none;
     width: 90px;
     height: 40px;
